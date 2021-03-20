@@ -196,18 +196,18 @@ function Map(props) {
 
           
           >
-            <Card>
+            <Card style= {{maxWidth:"400px"}}>
               <CardContent>
               <Typography  color="textSecondary" gutterBottom>
               { selectedToilet.isAvailable ?  <span style={{color:"#4caf50"}}>{"Open" }</span>: <span style={{color:"#f44336"}}>Closed</span>}
         </Typography>
-                <Typography variant="h5" component="h2">
+                <Typography variant="body2" component="p">
                   {selectedToilet.landmarkName}
         </Typography>
               
                   <Box component="fieldset" borderColor="transparent">
-                   
-                    <Rating name="read-only" value={selectedToilet.avgRating > 0 ? selectedToilet.avgRating: 0} readOnly />
+                  {selectedToilet.avgRating > 0 ? <Rating name="read-only" value={selectedToilet.avgRating > 0 ? selectedToilet.avgRating: 0} readOnly />: null}
+                    
                   </Box>
         
                 <div>
