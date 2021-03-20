@@ -1,6 +1,7 @@
 import React from 'react' 
 import {List, ListItem, ListItemIcon, ListItemText, Divider, Container, AppBar, Typography, Button, Toolbar, IconButton, Paper} from '@material-ui/core';
 import { ArrowBack, ThreeDRotation, Wc, Settings, Person, AccountBalance, Toll, Close, Add} from '@material-ui/icons';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { NavLink, useHistory } from 'react-router-dom';
@@ -42,7 +43,14 @@ const useStyles = makeStyles((theme) => ({
             </ListItem>
           </NavLink>
           
-
+          <NavLink to="/toilets_leased" style={{ textDecoration: 'none', color: '#212121' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <ListAltIcon />
+            </ListItemIcon>
+            <ListItemText primary="Toilets Leased" />
+            </ListItem>
+          </NavLink>
 
 
 
