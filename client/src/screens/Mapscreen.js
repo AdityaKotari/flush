@@ -2,14 +2,15 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { render } from "react-dom";
+import Rating from '@material-ui/lab/Rating';
 
 import Geocoder from "react-map-gl-geocoder";
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import MapGL, {GeolocateControl, Marker, Popup} from "react-map-gl";
-import { Card, CardActions,Chip, Avatar,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
-import {AccessibleForward, AirlineSeatLegroomExtra, PlayCircleFilledWhite, Wc} from '@material-ui/icons'; 
+import { Card, CardActions,Chip, Avatar, Box,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
+import {AccessibleForward, AirlineSeatLegroomExtra, Info, Person, PersonAddDisabled, PlayCircleFilledWhite, PregnantWoman, Wc} from '@material-ui/icons'; 
 import { indigo } from "@material-ui/core/colors";
 import { withTheme } from "@material-ui/styles";
 // Please be a decent human and don't abuse my Mapbox API token.
@@ -19,12 +20,12 @@ const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: indigo[100], 
-    color: "white"
+    backgroundColor: "white", 
+    
   },
   icons:
   {
-    fill:"white"
+    fill:indigo[800], 
   }
 }));
 function Map(props) {
@@ -178,33 +179,43 @@ function Map(props) {
           <Popup
             latitude={selectedToilet.lat}
             longitude={selectedToilet.lng}
+            
             onClose={() => {
               setSelectedToilet(null);
+            
             }}
           >
-            <Card  variant="outlined">
+            <Card>
               <CardContent>
               <Typography  color="textSecondary" gutterBottom>
-         AVAILABLE
+              { selectedToilet.isAvailable ?  <span style={{color:"#4caf50"}}>{"Open" }</span>: <span style={{color:"#f44336"}}>Closed</span>}
         </Typography>
                 <Typography variant="h5" component="h2">
-                  Station lavaratory
+                  {selectedToilet.landmarkName}
         </Typography>
-                <Typography  color="textSecondary">
-                  3.5/5
+                <Typography  align="left">
+                  <Box component="fieldset" borderColor="transparent">
+                   
+                    <Rating name="read-only" value={selectedToilet.avgRating > 0 ? selectedToilet.avgRating: 0} readOnly />
+                  </Box>
         </Typography>
                 <div>
+                  {selectedToilet.differentlyAbled ? 
+                  <span><Chip variant="outlined" icon={<AccessibleForward className={chipStyle.icons}/>} size="small" label="Different abled friendly" className = {chipStyle.root}/>&nbsp;</span> 
+                   : null}
                   
-                  <Chip icon={<AccessibleForward className={chipStyle.icons}/>} size="small" label="Friendly" className = {chipStyle.root}/>
-                  &nbsp; 
-                  <Chip icon={<Wc className={chipStyle.icons}/>} label="Unisex" size="small" className = {chipStyle.root}/>
-                  &nbsp; 
-                  <Chip icon={<AirlineSeatLegroomExtra className={chipStyle.icons}/>}   size="small" label="Commode" className = {chipStyle.root}/>
+                  {selectedToilet.toiletType === "w" ? <span> <Chip  variant="outlined" icon={<AirlineSeatLegroomExtra className={chipStyle.icons}/>}   size="small" label="Commode" className = {chipStyle.root}/>&nbsp; </span>: null}
+                  {selectedToilet.gender === "a" ? <span> <Chip   variant="outlined" icon={<PregnantWoman className={chipStyle.icons}/>}   size="small" label="Ladies" className = {chipStyle.root}/>&nbsp; </span>: null}
+                  {selectedToilet.gender === "b" ? <span> <Chip   variant="outlined" icon={<Person className={chipStyle.icons}/>}   size="small" label="Gents" className = {chipStyle.root}/>&nbsp; </span>: null}
+                  {selectedToilet.gender === "c" ? <span> <Chip   variant="outlined" icon={<Wc className={chipStyle.icons}/>} label="Unisex" size="small" className = {chipStyle.root}/>&nbsp; </span>: null}
+
+                  
+                 
                  
                 </div>
               </CardContent>
               <CardActions>
-                 <Button size="small">Obtain pass</Button>
+                 <Chip icon= {<Info style={{color:"white"}}/>} label = "Details" style={{backgroundColor:"#3f50b5", color:"white", fontWeight:"bold"}}></Chip>
               </CardActions>
             </Card>
           </Popup>
