@@ -9,10 +9,12 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import MapGL, {GeolocateControl, Marker, Popup} from "react-map-gl";
+import mapboxgl from 'mapbox-gl'
 import { Card, CardActions,Chip, Avatar, Box,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
 import {AccessibleForward, AirlineSeatLegroomExtra, Info, Person, PersonAddDisabled, PlayCircleFilledWhite, PregnantWoman, Wc} from '@material-ui/icons'; 
 import { indigo } from "@material-ui/core/colors";
 import { withTheme } from "@material-ui/styles";
+
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiMTV0aHJlYWQiLCJhIjoiY2ttZmUxMnhnMDk3ZjJ1czB4Z2xvYzZscCJ9.-88YuiCjn8ZYzeTcmfNnaQ";
 
