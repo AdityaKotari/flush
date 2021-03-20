@@ -32,12 +32,21 @@ const useStyles = makeStyles((theme) => ({
             <ListItemText primary="Book a restroom" />
           
           </ListItem>
+
+          <NavLink to="/profile_info" style={{ textDecoration: 'none', color: '#212121' }}>
           <ListItem button>
             <ListItemIcon>
               <Person />
             </ListItemIcon>
             <ListItemText primary="Profile info" />
-          </ListItem>
+            </ListItem>
+          </NavLink>
+          
+
+
+
+
+        
           <ListItem button>
             <ListItemIcon>
               <Settings />

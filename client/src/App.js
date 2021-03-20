@@ -1,6 +1,7 @@
 import React,{useEffect,createContext,useReducer,useContext} from 'react'; 
 import Map from './screens/Mapscreen'; 
 import Profile from './screens/Profile'; 
+import ProfileInfo from './screens/ProfileInfo'; 
 import SignUp from './screens/SignUp';
 import LogIn from './screens/LogIn';
 import Filter from './screens/Filter';
@@ -89,6 +90,9 @@ const Routing = () => {
             </Route>   
           <Route path="/example">
             <Map />
+            </Route>   
+            <Route path="/profile_info">
+            < ProfileInfo />
             </Route>   
 
         
