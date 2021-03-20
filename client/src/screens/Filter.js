@@ -46,10 +46,11 @@ const Filter = () => {
   const [gender,setGender] = useState("")
   const [differentlyAbled,setAbled] = useState("")
   const [maximumPrice,setMax] = useState("")
+  const [indianPreferred,setStyle] = useState("")
 
   const filterResults = () => {
     
-    localStorage.setItem("filterSettings", JSON.stringify({needsToiletPaper, gender, differentlyAbled, maximumPrice}))
+    localStorage.setItem("filterSettings", JSON.stringify({indianPreferred, needsToiletPaper, gender, differentlyAbled, maximumPrice}))
     history.push("/");
   }
 
@@ -77,6 +78,15 @@ const Filter = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Typography variant="h4" align="center">Filter Search Results</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="h6" align="center">Tip: Leave the fields blank if you don't have a preference.</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField fullWidth id="indianPreferred" label="Do you prefer Indian or Western style?"  variant="filled" select onChange={(e)=>setStyle(e.target.value)}>
+                            <MenuItem value="true">Indian</MenuItem>
+                            <MenuItem value="false">Western</MenuItem>
+                        </TextField>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField fullWidth id="needsToiletPaper" label="Do you require toilet paper?"  variant="filled" select onChange={(e)=>setPaper(e.target.value)}>
