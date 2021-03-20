@@ -2,13 +2,14 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { render } from "react-dom";
+import Rating from '@material-ui/lab/Rating';
 
 import Geocoder from "react-map-gl-geocoder";
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import MapGL, {GeolocateControl, Marker, Popup} from "react-map-gl";
-import { Card, CardActions,Chip, Avatar,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
+import { Card, CardActions,Chip, Avatar, Box,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
 import {AccessibleForward, AirlineSeatLegroomExtra, Info, Person, PersonAddDisabled, PlayCircleFilledWhite, PregnantWoman, Wc} from '@material-ui/icons'; 
 import { indigo } from "@material-ui/core/colors";
 import { withTheme } from "@material-ui/styles";
@@ -189,8 +190,11 @@ function Map(props) {
                 <Typography variant="h5" component="h2">
                   {selectedToilet.landmarkName}
         </Typography>
-                <Typography  color="textSecondary">
-                  {selectedToilet.avgRating}/5
+                <Typography  align="left">
+                  <Box component="fieldset" borderColor="transparent">
+                   
+                    <Rating name="read-only" value={selectedToilet.avgRating > 0 ? selectedToilet.avgRating: 0} readOnly />
+                  </Box>
         </Typography>
                 <div>
                   {selectedToilet.differentlyAbled ? 
