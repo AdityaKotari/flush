@@ -8,10 +8,14 @@ import {InputAdornment, Typography, AppBar, Toolbar, Button, Container, IconButt
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import mapboxgl from 'mapbox-gl'
 import { Bathtub, Search, Wc, PhotoCamera, Backspace, ArrowBack, PinDrop, EditLocationOutlined, EditLocationSharp, AddLocation } from '@material-ui/icons';
 import MapGL, {GeolocateControl, Marker} from 'react-map-gl';
 import { NavLink, useHistory } from 'react-router-dom';
 import MuiAlert from '@material-ui/lab/Alert';
+
+
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
