@@ -18,7 +18,7 @@ const toiletSchema = new mongoose.Schema({
     },
     toiletType:{
       type: String, 
-      default: "Indian"
+      default: "i"
     }, 
     restroomPrice:{
         type: Number,
