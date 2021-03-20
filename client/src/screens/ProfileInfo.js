@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import {Box, Avatar} from '@material-ui/core';
 import logo from '../logo.svg';
 import MuiAlert from '@material-ui/lab/Alert';
-import { AccountCircle, Person, PortableWifiOff } from '@material-ui/icons';
+import { AccountCircle, ArrowBack, Person, PortableWifiOff } from '@material-ui/icons';
 import {UserContext} from '../App'; 
 import { Close } from '@material-ui/icons';
 import {IconButton} from '@material-ui/core';
@@ -108,7 +108,7 @@ const ProfileInfo = () => {
       <AppBar position="static" color="secondary" elevation={0}>
                 <Toolbar>
                     <IconButton edge="start"  color="primary" aria-label="menu">
-                        <Close onClick = {
+                        <ArrowBack onClick = {
                             history.goBack
                         }/>
                     </IconButton>
