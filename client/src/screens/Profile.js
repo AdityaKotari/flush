@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     return (
       <div className={classes.root}>
         <List component="nav" aria-label="main mailbox folders">
+        <NavLink to="/" style={{ textDecoration: 'none', color: '#212121' }}>
           <ListItem button>
             <ListItemIcon>
               <Wc />
@@ -33,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
             <ListItemText primary="Book a restroom" />
           
           </ListItem>
+          </NavLink>
+
 
           <NavLink to="/profile_info" style={{ textDecoration: 'none', color: '#212121' }}>
           <ListItem button>
@@ -54,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-        
+          <NavLink to="/profile_info" style={{ textDecoration: 'none', color: '#212121' }}>
           <ListItem button>
             <ListItemIcon>
               <Settings />
@@ -69,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
             
             <ListItemText primary="Wallet" />
           </ListItem>
-          
+          </NavLink>
 
           <NavLink to="/new_toilet" style={{ textDecoration: 'none', color: '#212121' }}><ListItem button>
             <ListItemIcon>
@@ -109,9 +112,12 @@ const Profile = () =>
             </AppBar>
             <main>
                 <Container maxWidth="xs">
-                <Typography variant="h2" align="left">&nbsp; Hello, User</Typography>
+                <Typography variant="h3" align="left">&nbsp; Hello,</Typography>
                 </Container>
-                <Container maxWidth="xs" align="center">
+                <Container maxWidth="xs" minHeigth="20vh">
+                <Typography variant="h4" align="left">&nbsp;&nbsp;    {JSON.parse(localStorage.getItem('user')).name}</Typography>
+                </Container>
+                <Container maxWidth="xs" align="center" >
                     <SimpleList />
                 </Container>
                 

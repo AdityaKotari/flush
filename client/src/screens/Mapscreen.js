@@ -71,7 +71,10 @@ function Map(props) {
               //console.log({toilet, filter})
               toiletFits=false;
             }
-            if(filter.maximumPrice!==""&&toilet.restroomPrice!==null&&filter.maximumPrice<toilet.restroomPrice){
+            if(filter.maximumPrice!==""&&toilet.restroomPrice!==null&&parseInt(filter.maximumPrice)<toilet.restroomPrice){
+              toiletFits=false;
+            }
+            if(filter.isAvailable&&filter.isAvailable!==""&&toilet.isAvailable!==null&&((filter.isAvailable==="true"&&toilet.isAvailable===false))){
               toiletFits=false;
             }
             if(filter.needsToiletPaper==="true"&&toilet.hasToiletPaper!==null&&toilet.hasToiletPaper===false){
@@ -171,7 +174,7 @@ function Map(props) {
           mapboxApiAccessToken={MAPBOX_TOKEN}
           position="top-left"
           placeholder = "Search"
-
+          width="100vw"
         />
           {selectedToilet ? (
 
