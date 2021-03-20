@@ -5,7 +5,7 @@ import { render } from "react-dom";
 import Rating from '@material-ui/lab/Rating';
 
 import Geocoder from "react-map-gl-geocoder";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import MapGL, {GeolocateControl, Marker, Popup} from "react-map-gl";
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 function Map(props) {
+  const history = useHistory(); 
   const chipStyle = useStyles(); 
   const [toilets,setToilets] = useState([]);
   const [selectedToilet, setSelectedToilet] = useState(null);
@@ -173,14 +174,24 @@ function Map(props) {
 
         />
           {selectedToilet ? (
+
+
+
           <Popup
             latitude={selectedToilet.lat}
             longitude={selectedToilet.lng}
             
-            onClose={() => {
-              setSelectedToilet(null);
+            // onClose={() => {
+            //   setSelectedToilet(null);
             
-            }}
+            // }}
+
+            // onClick = {(e) => {
+            //   e.preventDefault(); 
+            //   history.push("/one_toilet/" + selectedToilet._id)
+            // }}
+
+          
           >
             <Card>
               <CardContent>
@@ -190,12 +201,12 @@ function Map(props) {
                 <Typography variant="h5" component="h2">
                   {selectedToilet.landmarkName}
         </Typography>
-                <Typography  align="left">
+              
                   <Box component="fieldset" borderColor="transparent">
                    
                     <Rating name="read-only" value={selectedToilet.avgRating > 0 ? selectedToilet.avgRating: 0} readOnly />
                   </Box>
-        </Typography>
+        
                 <div>
                   {selectedToilet.differentlyAbled ? 
                   <span><Chip variant="outlined" icon={<AccessibleForward className={chipStyle.icons}/>} size="small" label="Different abled friendly" className = {chipStyle.root}/>&nbsp;</span> 
@@ -212,7 +223,8 @@ function Map(props) {
                 </div>
               </CardContent>
               <CardActions>
-                 <Chip icon= {<Info style={{color:"white"}}/>} label = "Details" style={{backgroundColor:"#3f50b5", color:"white", fontWeight:"bold"}}></Chip>
+                <NavLink to={'/one_toilet/'+selectedToilet._id}><Chip  icon= {<Info style={{color:"white"}}/>} label = "Details" style={{backgroundColor:"#3f50b5", color:"white", fontWeight:"bold"}}></Chip></NavLink>
+                 
               </CardActions>
             </Card>
           </Popup>

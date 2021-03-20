@@ -19,6 +19,7 @@ import {reducer,initialState} from './reducers/userReducer'
 import { CssBaseline } from  '@material-ui/core'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import NewToilet from './screens/NewToilet';
+import OneToilet from './screens/OneToilet';
 
 
 export const UserContext = createContext();
@@ -98,6 +99,9 @@ const Routing = () => {
             <Route path="/profile_info">
             < ProfileInfo />
             </Route>   
+            <Route path="/one_toilet/:toiletId">
+                <OneToilet />
+            </Route>
 
         
         </Switch>
