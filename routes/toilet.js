@@ -102,4 +102,27 @@ router.post("/newRating", requireLogin, async (req, res) => {
 });
 });
 
+
+router.post("/oneToilet", requireLogin,  async (req, res)=>{
+  const { toilet_id } = req.body; 
+  try
+  {
+       const theToilet = await toilet.findOne({_id: toilet_id}); 
+      if (theToilet)
+      {
+        res.json(theToilet)
+      }
+      else
+      {
+        res.status(422).json({error:"No such toilet exists"})
+      }
+  }
+  catch (e) 
+  {
+    console.log(e)
+    res.status(422).json({error:"Error"})
+  }
+  
+})
+
 module.exports = router;
