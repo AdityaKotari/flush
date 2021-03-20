@@ -65,7 +65,7 @@ const Routing = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if(user){
       dispatch({type:"USER",payload:user})
-    }else if(!history.location.pathname.startsWith('/LogIn')){
+    }else if(!history.location.pathname.startsWith('/LogIn'||!history.location.pathname.startsWith('/api'))){
         history.push('/SignUp');
     }
   },[]);
