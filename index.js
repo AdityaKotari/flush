@@ -11,11 +11,13 @@ var cors = require('cors')
 // app.use(cors());
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'client/build')));  
+ 
 
-app.use('api/profile', require('./routes/profile.js'));
-app.use('api/toilet', require('./routes/toilet.js'));
+app.use('/api/profile', require('./routes/profile.js'));
+app.use('/api/toilet', require('./routes/toilet.js'));
 app.use(router);
+
+app.use(express.static(path.join(__dirname, 'client/build'))); 
 
 app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
