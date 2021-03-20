@@ -2,7 +2,7 @@
 import React,{useState,useContext,} from 'react'
 import {Link,NavLink,useHistory} from 'react-router-dom'
 import {UserContext} from '../App'
-
+import {AppBar, Toolbar, Typography, Box} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -61,6 +61,24 @@ const LogIn = () => {
 
 
   return (
+    <div>
+     <AppBar position="static" color="secondary" elevation={0}>
+                <Toolbar>
+                   
+                    
+                    
+                </Toolbar>
+            </AppBar>
+          
+       <br>
+       </br>
+       <br>
+       </br>
+      <Container className={classes.container} maxWidth="xs" container align="center">
+        <img src="./public_icons/toilet-paper.png" className = "logoImg"></img>
+        <Typography><Box fontWeight="fontWeightBold">Get moving with flush</Box></Typography>
+        </Container>
+        
     <Container className={classes.container} maxWidth="xs">
       <form onSubmit={(e)=>{e.preventDefault()}}>
         <Grid container spacing={3}>
@@ -87,9 +105,20 @@ const LogIn = () => {
               Log in
             </Button>
           </Grid>
+           
+          <Grid item xs={12} align="center">
+            <Typography>
+              
+               New User? <Link to="/SignUp" style={{ textDecoration: 'none' }}><Box fontWeight="fontWeightBold">Signup</Box></Link>
+
+              
+            </Typography>
+
+          </Grid>
         </Grid>
       </form>
     </Container>
+    </div>
   );
 };
 

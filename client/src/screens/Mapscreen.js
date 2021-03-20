@@ -49,42 +49,42 @@ function Map(props) {
      }).then(res=>res.json())
      .then(result=>{
           console.log("Found toilets, "+result.length+" toilets"); 
-          // setToilets(result)
-          const filter=JSON.parse(localStorage.getItem("filterSettings"));
-          var filteredToilets=[];
-          result.forEach((toilet) => {
+          setToilets(result)
+        //   const filter=JSON.parse(localStorage.getItem("filterSettings"));
+        //   var filteredToilets=[];
+        //   result.forEach((toilet) => {
             
-            var toiletFits=true;
-            if(filter.differentlyAbled!==""&&filter.differentlyAbled==="true"&&toilet.differentlyAbled!==null&&toilet.differentlyAbled===false){
-              //console.log({toilet, filter})
-              toiletFits=false;
-            }
-            if(filter.indianPreferred!==""&&toilet.isIndian!==null&&((filter.indianPreferred==="true"&&toilet.isIndian===false)||(filter.indianPreferred==="false"&&toilet.isIndian===true))){
-              //console.log({toilet, filter})
-              toiletFits=false;
-            }
-            if(filter.maximumPrice!==""&&toilet.restroomPrice!==null&&filter.maximumPrice<toilet.restroomPrice){
-              toiletFits=false;
-            }
-            if(filter.needsToiletPaper==="true"&&toilet.hasToiletPaper!==null&&toilet.hasToiletPaper===false){
-              toiletFits=false;
-            }
-            if(filter.gender!==""&&toilet.gender!==null&&((filter.gender==="male"&&toilet.gender==="a")||
-                    (filter.gender==="female"&&toilet.gender==="b")
-                    ||(filter.gender==="other"&&!toilet.gender==="c"))){
-                      toiletFits=false;
-                    }
-            if(toiletFits){
-              //console.log({toilet, filter})
-              filteredToilets.push(toilet);
-            }
-            else{
-              console.log({toilet, filter});
-            }
+        //     var toiletFits=true;
+        //     if(filter.differentlyAbled!==""&&filter.differentlyAbled==="true"&&toilet.differentlyAbled!==null&&toilet.differentlyAbled===false){
+        //       //console.log({toilet, filter})
+        //       toiletFits=false;
+        //     }
+        //     if(filter.indianPreferred!==""&&toilet.isIndian!==null&&((filter.indianPreferred==="true"&&toilet.isIndian===false)||(filter.indianPreferred==="false"&&toilet.isIndian===true))){
+        //       //console.log({toilet, filter})
+        //       toiletFits=false;
+        //     }
+        //     if(filter.maximumPrice!==""&&toilet.restroomPrice!==null&&filter.maximumPrice<toilet.restroomPrice){
+        //       toiletFits=false;
+        //     }
+        //     if(filter.needsToiletPaper==="true"&&toilet.hasToiletPaper!==null&&toilet.hasToiletPaper===false){
+        //       toiletFits=false;
+        //     }
+        //     if(filter.gender!==""&&toilet.gender!==null&&((filter.gender==="male"&&toilet.gender==="a")||
+        //             (filter.gender==="female"&&toilet.gender==="b")
+        //             ||(filter.gender==="other"&&!toilet.gender==="c"))){
+        //               toiletFits=false;
+        //             }
+        //     if(toiletFits){
+        //       //console.log({toilet, filter})
+        //       filteredToilets.push(toilet);
+        //     }
+        //     else{
+        //       console.log({toilet, filter});
+        //     }
             
-        });
-         setToilets(filteredToilets); 
-         console.log("Filtered toilets, "+filteredToilets.length+" toilets");
+        // });
+        //  setToilets(filteredToilets); 
+        //  console.log("Filtered toilets, "+filteredToilets.length+" toilets");
      })
   },[])
 
