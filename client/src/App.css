@@ -1,0 +1,27 @@
+.profile
+{
+    position: absolute;
+    top: 25px;
+    right: 10px;
+}
+
+.marker-btn {
+  background: white;
+  border: 1.5px solid black;
+  border-radius: 50%;
+  padding-top: 5px;
+  cursor: pointer;
+}
+
+.marker-btn img {
+  width: 20px;
+  height: 20px;
+
+}
+.filter{
+    position: absolute;
+    bottom: 45px;
+    left: 10px;
+}
+
+
