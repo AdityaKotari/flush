@@ -13,9 +13,7 @@ import { Card, CardActions,Chip, Avatar, Box,  Typography, Button, CardContent, 
 import {AccessibleForward, AirlineSeatLegroomExtra, Info, Person, PersonAddDisabled, PlayCircleFilledWhite, PregnantWoman, Wc} from '@material-ui/icons'; 
 import { indigo } from "@material-ui/core/colors";
 import { withTheme } from "@material-ui/styles";
-// Please be a decent human and don't abuse my Mapbox API token.
-// If you fork this sandbox, replace my API token with your own.
-// Ways to set Mapbox token: https://uber.github.io/react-map-gl/#/Documentation/getting-started/about-mapbox-tokens
+
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +44,7 @@ function Map(props) {
     };
   }, []);
   useEffect(()=>{   
-     fetch('/toilet/allToilets',{
+     fetch('/api/toilet/allToilets',{
        
      }).then(res=>res.json())
      .then(result=>{

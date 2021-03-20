@@ -30,7 +30,7 @@ const OneToilet = () => {
     console.log(toiletId)
 
     useEffect(()=>{
-        fetch("/toilet/oneToilet",{
+        fetch("/api/toilet/oneToilet",{
             method:"post",
             headers:{
                 "Content-Type":"application/json", 

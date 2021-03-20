@@ -77,7 +77,7 @@ const ProfileInfo = () => {
     const myHeaders = new Headers();
     myHeaders.append('Authorization', "Bearer "+localStorage.getItem("jwt"));
 
-    const myRequest = new Request('/profile/userData', {
+    const myRequest = new Request('/api/profile/userData', {
         method: 'GET',
         headers: myHeaders
     });

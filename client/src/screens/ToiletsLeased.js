@@ -40,7 +40,7 @@ const ToiletsLeased = (props) => {
   
   useEffect(() => {
 
-    fetch('/toilet/allToilets',{
+    fetch('/api/toilet/allToilets',{
          
     }).then(res=>res.json())
     .then(result=>{
@@ -71,7 +71,7 @@ const ToiletsLeased = (props) => {
   
   const switchToggled = () => {
     //console.log(e);
-    fetch('/toilet/changeAvailability',{
+    fetch('/api/toilet/changeAvailability',{
       method:"post",
             headers:{
                 "Content-Type":"application/json", 

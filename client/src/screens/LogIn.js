@@ -28,7 +28,7 @@ const LogIn = () => {
             alert("Please enter a valid email")
             return
         }
-        fetch("/profile/login",{
+        fetch("/api/profile/login",{
             method:"post",
             headers:{
                 "Content-Type":"application/json"

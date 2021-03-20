@@ -149,7 +149,7 @@ const NewToilet = ()  => {
 
     })
         
-        fetch("/toilet/newToilet",{
+        fetch("/api/toilet/newToilet",{
             method:"post",
             headers:{
                 "Content-Type":"application/json", 
