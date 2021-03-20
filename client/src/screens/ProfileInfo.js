@@ -11,10 +11,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import {Box, Avatar} from '@material-ui/core';
+import {Box, Avatar,  FormLabel} from '@material-ui/core';
 import logo from '../logo.svg';
 import MuiAlert from '@material-ui/lab/Alert';
-import { AccountCircle, Person, PortableWifiOff } from '@material-ui/icons';
+import { AccountCircle, ArrowBack, Person, PortableWifiOff } from '@material-ui/icons';
 import {UserContext} from '../App'; 
 import { Close } from '@material-ui/icons';
 import {IconButton} from '@material-ui/core';
@@ -99,16 +99,19 @@ const ProfileInfo = () => {
 
   
 
-
-
-
-
+if (!isLoaded)
+{
+  return (<div></div>); 
+  
+}
+else
+{
   return (
     <div>
       <AppBar position="static" color="secondary" elevation={0}>
                 <Toolbar>
                     <IconButton edge="start"  color="primary" aria-label="menu">
-                        <Close onClick = {
+                        <ArrowBack onClick = {
                             history.goBack
                         }/>
                     </IconButton>
@@ -131,23 +134,37 @@ const ProfileInfo = () => {
        <br>
        </br>
        
-     <Container className={classes.container} maxWidth="xs" container align="center">
+     <Container className={classes.container} maxWidth="xs" container >
         {/*<img src="./public_icons/toilet-paper.png" className = "logoImg"></img>
         <Typography><Box fontWeight="fontWeightBold">Flush away your worries</Box></Typography> */}
+
+        <Container align="center">
         <Avatar style={{width:"80px", height:"80px"}}>
           <AccountCircle style={{width:"80px", height:"80px"}} />
         </Avatar>
         <br></br>
         <Typography>{items.name}</Typography>
+        </Container>
+
+        
         <form onSubmit={(e)=>{e.preventDefault()}}>
           <Grid container spacing={3} style={{paddingTop:40}}>
             <Grid item xs={12}>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} >
+              <Grid item xs={12} >
+              <FormLabel component="legend">Name</FormLabel>
+                </Grid>
                 <Grid item xs={12}>
                   <TextField fullWidth  name="name" size="small" variant="outlined" value = {items.name} />
                 </Grid>
                 <Grid item xs={12}>
+              <FormLabel component="legend">Contact number</FormLabel>
+                </Grid>
+                <Grid item xs={12}>
                   <TextField fullWidth  name="phone" size="small" variant="outlined" value = {items.phone} />
+                </Grid>
+                <Grid item xs={12}>
+              <FormLabel component="legend">Email address</FormLabel>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField fullWidth  name="email" size="small" variant="outlined" value = {items.email} />
@@ -193,6 +210,9 @@ const ProfileInfo = () => {
     </Container>
 </div>
   );
+}
+
+  
 };
 
 export default ProfileInfo;

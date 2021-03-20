@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
               <Wc />
             </ListItemIcon>
              
-            <ListItemText primary="Book a restroom" />
+            <ListItemText primary="Find a restroom" />
           
           </ListItem>
           </NavLink>
