@@ -60,6 +60,18 @@ const toiletSchema = new mongoose.Schema({
     },
     landmarkName:{
         type:String, 
+    },
+    avgRating:{
+        type:Number,
+        default: -1
+    },
+    usersWhoRated:{
+        type: [ObjectId],
+        ref: "User"
+    },
+    isAvailable:{
+        type: Boolean,
+        default: true
     }
 });
 
