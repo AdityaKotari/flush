@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import logo from '../logo.svg';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -103,23 +104,21 @@ const SignUp = () => {
 
       
       
-            <AppBar position="static">
-              <Toolbar className={classes.toolbar}>
-                {/* <div style={{height : 0.5, width : 0.5,  justifyContent:'center', alignItems:'center'}}>
-                  <img src={logo} alt="logo" />
-                </div> */}
-                <div style={{justifyContent:'center', alignItems:'center'}}>
-                  <img src={logo} alt="logo" style={{height : 40, width : 40, paddingTop: 7}}/>
-                </div>
-
-                <Typography className={classes.title} variant="h5" noWrap style={{fontSize:35, paddingLeft:10}}>
-                    FLUSH
-                </Typography>
-              </Toolbar>
+<AppBar position="static" color="secondary" elevation={0}>
+                <Toolbar>
+                   
+                    
+                    
+                </Toolbar>
             </AppBar>
           
-
-      <Container className={classes.container} maxWidth="xs" container alignItems="center">
+       <br>
+       </br>
+       <br>
+       </br>
+      <Container className={classes.container} maxWidth="xs" container align="center">
+        <img src="./public_icons/toilet-paper.png" className = "logoImg"></img>
+        <Typography><Box fontWeight="fontWeightBold">Flush away your worries</Box></Typography>
         <form onSubmit={(e)=>{e.preventDefault()}}>
           <Grid container spacing={3} style={{paddingTop:40}}>
             <Grid item xs={12}>
@@ -147,10 +146,10 @@ const SignUp = () => {
           
           <Grid item xs={12} align="center">
             <Typography>
-              <Link href="/LogIn" color="primary" >
-                Clich here if you already have an account
+              
+                Already have an account? <Link to="/LogIn" style={{ textDecoration: 'none' }}><Box fontWeight="fontWeightBold">Login</Box></Link>
 
-              </Link>
+              
             </Typography>
 
           </Grid>
