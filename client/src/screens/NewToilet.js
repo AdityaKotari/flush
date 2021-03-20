@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   }));
-const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+const MAPBOX_TOKEN = "pk.eyJ1IjoiMTV0aHJlYWQiLCJhIjoiY2ttZmUxMnhnMDk3ZjJ1czB4Z2xvYzZscCJ9.-88YuiCjn8ZYzeTcmfNnaQ";
 
 const NewToilet = ()  => {
 
