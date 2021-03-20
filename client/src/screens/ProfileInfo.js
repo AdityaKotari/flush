@@ -99,10 +99,13 @@ const ProfileInfo = () => {
 
   
 
-
-
-
-
+if (!isLoaded)
+{
+  return (<div></div>); 
+  
+}
+else
+{
   return (
     <div>
       <AppBar position="static" color="secondary" elevation={0}>
@@ -207,6 +210,9 @@ const ProfileInfo = () => {
     </Container>
 </div>
   );
+}
+
+  
 };
 
 export default ProfileInfo;

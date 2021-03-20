@@ -80,21 +80,23 @@ router.post("/changeAvailability", requireLogin, async (req, res) => {
   });
 });
 
-router.post("/newRating", requireLogin, async (req, res) => {
+router.post("/newRating", requireLogin,  async (req, res) => {
   const {toilet_id, rating} = req.body;
+  console.log(req.body)
   Toilet.findOne({ _id: toilet_id }, function(err, toilet) {
-    if(toilet.usersWhoRated.includes(req.user._id)){
-      return res.status(422).json({error:"You have already voted!"})
+    // if(toilet.usersWhoRated.includes(req.user._id)){
+    //   return res.status(422).json({error:"You have already voted!"})
       
-    }
+    // }
     if(toilet.avgRating===-1){
       toilet.avgRating===0;
     }
     toilet.avgRating=(toilet.avgRating*toilet.usersWhoRated.length+rating)/(toilet.usersWhoRated.length+1);
     toilet.usersWhoRated.push(req.user._id); //This is from requireLogin(uses the bearer code there)
     toilet.save()
-    .then(() => {
-      res.json({message:"Rating changed successfully"})
+    .then((data) => {
+      console.log(data)
+      res.json(data)
     })
     .catch((error) => {
       console.log(error);
