@@ -176,8 +176,8 @@ const NewToilet = ()  => {
                history.push('/')
            }
         }).catch(err=>{
-            setErrorStatus(true)
-            setErrorMessage(err)
+            //setErrorStatus(true)
+            //setErrorMessage(err)
             console.log(err)
         })
     }

@@ -56,9 +56,13 @@ router.get("/allToilets", async (req, res) => {
 
 router.post("/changeAvailability", requireLogin, async (req, res) => {
     const {toilet_id} = req.body;
-    
+    console.log("change avail re")
     Toilet.findOne({ _id: toilet_id }, function(err, toilet) {
-      
+      if(!toilet){
+        console.log(toilet);
+        return res.status(422).json({error:"This toilet doesn't exist."})
+   
+   }
       //console.log({toilet})
       if(String(toilet.owner)!==String(req.user._id)){
            return res.status(422).json({error:"You do not own this toilet! toilet owner- " +toilet.owner+" and you - "+req.user._id})

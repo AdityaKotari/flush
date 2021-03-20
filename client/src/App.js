@@ -5,6 +5,7 @@ import ProfileInfo from './screens/ProfileInfo';
 import SignUp from './screens/SignUp';
 import LogIn from './screens/LogIn';
 import Filter from './screens/Filter';
+import ToiletsLeased from './screens/ToiletsLeased';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -87,6 +88,9 @@ const Routing = () => {
           </Route>   
           <Route path="/new_toilet">
             <NewToilet /> 
+            </Route>   
+            <Route path="/toilets_leased">
+            <ToiletsLeased/> 
             </Route>   
           <Route path="/example">
             <Map />
