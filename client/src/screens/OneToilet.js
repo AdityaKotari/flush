@@ -83,7 +83,7 @@ const OneToilet = () => {
                         } />
                     </IconButton>
                     <Typography variant="h6">
-                        {toiletProp.landmarkName}
+                        
              </Typography>
     
                 </Toolbar>
@@ -136,20 +136,20 @@ const OneToilet = () => {
                             <ListItemIcon>
                                 <WcOutlined className={iconMakeup.root} />
                             </ListItemIcon>
-                            <ListItemText primary={toiletProp.restroomPrice===0 ? "Free services" :  toiletProp.restroomPrice} />
+                            <ListItemText primary={toiletProp.restroomPrice===0 ? "Free services" :  "Restroom fees (INR): " + toiletProp.restroomPrice} />
                         </ListItem>
                         <ListItem button>
                             <ListItemIcon>
                                 <BathtubOutlined className={iconMakeup.root} />
                             </ListItemIcon>
-                            <ListItemText primary={toiletProp.bathroomPrice===0 ? "Free services" :  toiletProp.restroomPrice} />
+                            <ListItemText primary={toiletProp.bathroomPrice===0 ? "Free services" :  "Bathroom fees (INR): " + toiletProp.restroomPrice} />
                         </ListItem>
                         <Divider />
                         <ListItem button>
                             <ListItemIcon>
                                 <AccessTimeOutlined className={iconMakeup.root} />
                             </ListItemIcon>
-                            <ListItemText primary={toiletProp.isAvailable ? "Open right now" : "Closed"} />
+                            <ListItemText primary={toiletProp.isAvailable ? "Open from 9 AM to 9 PM everyday" : "Closed"} />
                         </ListItem>
                         <Divider />
                         <ListItem button>
