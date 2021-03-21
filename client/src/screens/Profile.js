@@ -1,6 +1,7 @@
 import React from 'react' 
 import {List, ListItem, ListItemIcon, ListItemText, Divider, Container, AppBar, Typography, Button, Toolbar, IconButton, Paper} from '@material-ui/core';
 import { ArrowBack, ThreeDRotation, Wc, Settings, Person, AccountBalance, Toll, Close, Add} from '@material-ui/icons';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { NavLink, useHistory } from 'react-router-dom';
@@ -24,20 +25,39 @@ const useStyles = makeStyles((theme) => ({
     return (
       <div className={classes.root}>
         <List component="nav" aria-label="main mailbox folders">
+        <NavLink to="/" style={{ textDecoration: 'none', color: '#212121' }}>
           <ListItem button>
             <ListItemIcon>
               <Wc />
             </ListItemIcon>
              
-            <ListItemText primary="Book a restroom" />
+            <ListItemText primary="Find a restroom" />
           
           </ListItem>
+          </NavLink>
+
+
+          <NavLink to="/profile_info" style={{ textDecoration: 'none', color: '#212121' }}>
           <ListItem button>
             <ListItemIcon>
               <Person />
             </ListItemIcon>
             <ListItemText primary="Profile info" />
-          </ListItem>
+            </ListItem>
+          </NavLink>
+          
+          <NavLink to="/toilets_leased" style={{ textDecoration: 'none', color: '#212121' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <ListAltIcon />
+            </ListItemIcon>
+            <ListItemText primary="Toilets Leased" />
+            </ListItem>
+          </NavLink>
+
+
+
+          <NavLink to="/profile_info" style={{ textDecoration: 'none', color: '#212121' }}>
           <ListItem button>
             <ListItemIcon>
               <Settings />
@@ -52,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
             
             <ListItemText primary="Wallet" />
           </ListItem>
-          
+          </NavLink>
 
           <NavLink to="/new_toilet" style={{ textDecoration: 'none', color: '#212121' }}><ListItem button>
             <ListItemIcon>
@@ -92,9 +112,12 @@ const Profile = () =>
             </AppBar>
             <main>
                 <Container maxWidth="xs">
-                <Typography variant="h2" align="left">&nbsp; Hello, User</Typography>
+                <Typography variant="h3" align="left">&nbsp; Hello,</Typography>
                 </Container>
-                <Container maxWidth="xs" align="center">
+                <Container maxWidth="xs" minHeigth="20vh">
+                <Typography variant="h4" align="left">&nbsp;&nbsp;    {JSON.parse(localStorage.getItem('user')).name}</Typography>
+                </Container>
+                <Container maxWidth="xs" align="center" >
                     <SimpleList />
                 </Container>
                 

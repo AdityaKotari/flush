@@ -117,7 +117,7 @@ const SignUp = () => {
        <br>
        </br>
       <Container className={classes.container} maxWidth="xs" container align="center">
-        <img src="./public_icons/toilet-paper.png" className = "logoImg"></img>
+        <img src="./public_icons/logo.png" className = "logoImg"></img>
         <Typography><Box fontWeight="fontWeightBold">Flush away your worries</Box></Typography>
         <form onSubmit={(e)=>{e.preventDefault()}}>
           <Grid container spacing={3} style={{paddingTop:40}}>
@@ -147,7 +147,7 @@ const SignUp = () => {
           <Grid item xs={12} align="center">
             <Typography>
               
-                Already have an account? <Link to="/LogIn" style={{ textDecoration: 'none' }}><Box fontWeight="fontWeightBold">Login</Box></Link>
+                Already have an account? <Link to="/LogIn" style={{ textDecoration: 'none', color:"#3f50b5"}}><Box fontWeight="fontWeightBold">Login</Box></Link>
 
               
             </Typography>

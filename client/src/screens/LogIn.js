@@ -75,7 +75,7 @@ const LogIn = () => {
        <br>
        </br>
       <Container className={classes.container} maxWidth="xs" container align="center">
-        <img src="./public_icons/toilet-paper.png" className = "logoImg"></img>
+        <img src="./public_icons/logo.png" className = "logoImg"></img>
         <Typography><Box fontWeight="fontWeightBold">Get moving with flush</Box></Typography>
         </Container>
         
@@ -109,7 +109,7 @@ const LogIn = () => {
           <Grid item xs={12} align="center">
             <Typography>
               
-               New User? <Link to="/SignUp" style={{ textDecoration: 'none' }}><Box fontWeight="fontWeightBold">Signup</Box></Link>
+               New User? <Link to="/SignUp" style={{ textDecoration: 'none',  color:"#3f50b5" }}><Box fontWeight="fontWeightBold">Signup</Box></Link>
 
               
             </Typography>

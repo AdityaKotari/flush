@@ -31,6 +31,7 @@ const NewToilet = ()  => {
 
     //snackbar code
     const [snackbarStatus, setOpenSnackbar] = React.useState(false);
+    const [successMessage, setSuccessMessage ] = React.useState("")
     const [errorStatus, setErrorStatus] = React.useState(false)
     const [errorMessage, setErrorMessage] = React.useState("")
 
@@ -119,10 +120,16 @@ const NewToilet = ()  => {
     const [desc, setDesc] = React.useState("")
     const [isPublic, setPublic] = React.useState(false); 
     const [indian, setIndian] = React.useState('i'); 
+    const [image,setImage] = useState("")
+    const [photoURL, setPhotoURL ] = useState("")
+    const [photos, setPhotos] = useState([])
+    const [rem, setRem] = useState(5)
+
+    
 
 
     const classes = useStyles();
-    
+  
 
    
     
@@ -137,7 +144,8 @@ const NewToilet = ()  => {
         bathroomPrice:bathroomPrice, 
         lat:marker.latitude, 
         lng:marker.longitude, 
-        Indian: indian
+        Indian: indian, 
+        photos: photos
 
     })
         
@@ -158,6 +166,8 @@ const NewToilet = ()  => {
                 toiletType:indian, 
                 lat:marker.latitude, 
                 lng:marker.longitude, 
+                photos: photos
+                
                 
 
             })
@@ -173,16 +183,81 @@ const NewToilet = ()  => {
            }
            else{
               setOpenSnackbar(true)
+              setSuccessMessage("Added listing")
                history.push('/')
            }
         }).catch(err=>{
-            setErrorStatus(true)
-            setErrorMessage(err)
+            //setErrorStatus(true)
+            //setErrorMessage(err)
             console.log(err)
         })
     }
      
+    const imageDetails = ()=>{
 
+     if ((rem != 0) && (image))
+     {
+      const data = new FormData()
+      data.append("file",image)
+      data.append("upload_preset","trash-overflow")
+      data.append("cloud_name","dngglmcuk")
+      fetch("https://api.cloudinary.com/v1_1/dngglmcuk/image/upload",{
+          method:"post",
+          body:data
+      })
+      .then(res=>res.json())
+      .then(data=>{
+          if(data.error){
+            setErrorStatus(true)
+            setErrorMessage(data.error)
+            console.log(data.error); 
+           }
+           else
+           {
+            setPhotoURL(data.url)
+             setOpenSnackbar(true)
+             setSuccessMessage("Image upload successful")
+              
+              
+           }
+          
+      })
+      .catch(error=>{
+          
+        setErrorStatus(true)
+        setErrorMessage(error)
+        console.log(error); 
+      })
+  
+   
+  }
+     
+     else
+     {
+      setErrorStatus(true)
+      setErrorMessage("You cannot upload more than 4 pictures. Make sure that image field is not null")
+      console.log("Not more than 4"); 
+        
+     }
+    }
+
+
+
+    useEffect(()=>{
+      setPhotos([...photos, photoURL])
+    }, [photoURL]); 
+
+
+
+
+
+    
+    useEffect(()=>{
+      
+      setRem(rem-1)
+    }, [photoURL]); 
+   
+      
   return (
     <div>
         <AppBar position="static" color="secondary" elevation={0}>
@@ -406,23 +481,24 @@ const NewToilet = ()  => {
                             <Grid item xs = {12}>
                                 
                                 <br></br>
-                            <FormLabel component="legend">Upload image (optional)</FormLabel>
+                            <FormLabel component="legend">Upload image (optional). {rem} uploads remaining</FormLabel>
                             <br></br>
                                 <Container align="center">
                                 <div className={classes.root}>
-                                      <input
+                                      {/* <input
                                           accept="image/*"
                                           className={classes.input}
                                           id="contained-button-file"
                                           multiple
                                           type="file"
-                                      />
+                                          
+                                      /> */}
                                       <label htmlFor="contained-button-file">
-                                          <Button variant="contained" color="primary" component="span">
+                                          <Button variant="contained" color="primary" component="span" onClick = {(e)=>{imageDetails()}}>
                                               Upload
         </Button>
                                       </label>
-                                      <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
+                                      <input accept="image/*" className={classes.input} multiple id="icon-button-file" type="file" onChange={(e)=>setImage(e.target.files[0])}/>
                                       <label htmlFor="icon-button-file">
                                           <IconButton color="primary" aria-label="upload picture" component="span">
                                               <PhotoCamera />
@@ -440,7 +516,7 @@ const NewToilet = ()  => {
                         </Grid>
 
 
-                      </FormGroup>
+                      </FormGroup>  
 
                   </FormControl>
 
@@ -458,7 +534,7 @@ const NewToilet = ()  => {
    </Container>
    <Snackbar open={snackbarStatus} autoHideDuration={6000} onClose={(e)=>{setOpenSnackbar(false)}}>
   <Alert onClose={(e)=>{setOpenSnackbar(false)}} severity="success">
-    Added your restroom listing
+    {successMessage}
   </Alert>
 </Snackbar>
 <Snackbar open={errorStatus} autoHideDuration={6000} onClose={(e)=>{setErrorStatus(false)}}>

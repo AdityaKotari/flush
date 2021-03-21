@@ -47,12 +47,32 @@ const Filter = () => {
   const [differentlyAbled,setAbled] = useState("")
   const [maximumPrice,setMax] = useState("")
   const [indianPreferred,setStyle] = useState("")
+  const [filter,setFilter] = useState("")
+  const [isAvailable,setAvailable] = useState("")
 
   const filterResults = () => {
     
-    localStorage.setItem("filterSettings", JSON.stringify({indianPreferred, needsToiletPaper, gender, differentlyAbled, maximumPrice}))
+    localStorage.setItem("filterSettings", JSON.stringify({isAvailable, indianPreferred, needsToiletPaper, gender, differentlyAbled, maximumPrice}))
     history.push("/");
   }
+  useEffect( ()=>{
+        var filter=JSON.parse(localStorage.getItem("filterSettings"));
+        if(!filter){
+            filter={
+                indianPreferred:"false",
+                needsToiletPaper:"false",
+                gender:"male",
+                differentlyAbled:"false",
+                maximumPrice:"500",
+                isAvailable:"true",
+
+            }
+        }
+        setFilter(filter);
+        console.log(filter);
+        console.log(String(filter.indianPreferred))
+        
+  })
 
   return (
     <div>
@@ -80,7 +100,7 @@ const Filter = () => {
                         <Typography variant="h4" align="center">Filter Search Results</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography variant="h6" align="center">Tip: Leave the fields blank if you don't have a preference.</Typography>
+                        <Typography variant="body1" align="center">Tip: Leave any of the fields blank if you don't have a preference.</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField fullWidth id="indianPreferred" label="Do you prefer Indian or Western style?"  variant="filled" select onChange={(e)=>setStyle(e.target.value)}>
@@ -105,6 +125,12 @@ const Filter = () => {
                         <TextField fullWidth id="differentlyAbled" label="Are you differently-abled?" variant="filled" select onChange={(e)=>setAbled(e.target.value)}>
                             <MenuItem value="true">Yes</MenuItem>
                             <MenuItem value="false">No</MenuItem>
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField fullWidth id="availability" label="Toilet availability" variant="filled" select onChange={(e)=>setAvailable(e.target.value)}>
+                            <MenuItem value="true">Show only available toilets</MenuItem>
+                            <MenuItem value="false">Show all toilets</MenuItem>
                         </TextField>
                     </Grid>
                     <Grid item xs={12}>
