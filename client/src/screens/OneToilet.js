@@ -35,7 +35,7 @@ const OneToilet = () => {
     const [snackbarStatus, setOpenSnackbar] = React.useState(false);
 
     const rateToilet = () => {
-        fetch("/toilet/newRating", {
+        fetch("/api/toilet/newRating", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
