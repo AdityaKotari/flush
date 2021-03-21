@@ -134,7 +134,7 @@ const OneToilet = () => {
 
                         <CardMedia
 
-                            image={toiletProp.photos ? toiletProp.photos[1] : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Toilet_photo.jpg/800px-Toilet_photo.jpg"}
+                            image={toiletProp.photos.length > 1 ? toiletProp.photos[1] : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Toilet_photo.jpg/800px-Toilet_photo.jpg"}
                             title="landmarkName"
                             className={classes.media}
 
