@@ -109,7 +109,7 @@ router.post("/oneToilet", requireLogin,  async (req, res)=>{
   const { toilet_id } = req.body; 
   try
   {
-       const theToilet = await toilet.findOne({_id: toilet_id}); 
+       const theToilet = await toilet.findOne({_id: toilet_id}).populate("owner");
       if (theToilet)
       {
         res.json(theToilet)
