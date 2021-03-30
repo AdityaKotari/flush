@@ -23,6 +23,14 @@ import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import "@reach/combobox/styles.css";
 import { SearchOutlined } from "@material-ui/icons";
 // import mapStyles from "./mapStyles";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -34,99 +42,47 @@ const options = {
   disableDefaultUI: true,
   zoomControl: false,
 };
+const center = {
+  lat: -31.89628,
+  lng: 115.95578,
+};  
 
-
-const Map = ({changePositionState, currentLat, currentLng, zoom})=> {
+const Map = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
-  const [toilets, setToilets] = React.useState([]);
-  const [selected, setSelected] = React.useState(null);
+
+  const [currentLat, setLat] = React.useState(-31.89628);
+  const [currentLng, setLng] = React.useState(115.95578);
+  const [zoom, setZoom] = React.useState(14);
+  const [doneWithMapLoad, doneMapLoad] = React.useState(false);
+
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+
+  const handleExtraZoom = () => {
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+
+
+    setSnackbarOpen(false);
+  };
   
-  const center = {
-    lat: currentLat,
-    lng: currentLng,
-  };  
+  
   //const [currentPosition, setCurrentPosition] = React.useState({lng:center.lng, lat:center.lat});
   
   //const [ignored, forceUpdate] = React.useReducer(x => x + 1, 0);
 
 
-  useEffect(()=>{   
-    console.log("useEffect triggered, "+currentLat, +", "+currentLng )
-    fetch('/api/toilet/nearbyToilets?lat='+currentLat+'&lng='+currentLng+"&maxDistance="+10*1000,{
-      method:"GET",
-            headers:{
-                "Content-Type":"application/json", 
-                "Authorization":"Bearer "+localStorage.getItem("jwt"), 
-            },
-    }).then(res=>res.json())
-    .then(result=>{
-         console.log("Found toilets, "+result.length+" toilets"); 
-         
-         const filter=JSON.parse(localStorage.getItem("filterSettings"));
-         
-         var filteredToilets=[];
-         if(!filter||!result||result.length===0){
-           setToilets(result);
-           console.log("no filter or toilets found.");
-           return;
-         }
-         result.forEach((toilet) => {
-           
-           var toiletFits=true;
-           if(filter.differentlyAbled&&filter.differentlyAbled!==""&&filter.differentlyAbled==="true"&&toilet.differentlyAbled!==null&&toilet.differentlyAbled===false){
-             //console.log({toilet, filter})
-             toiletFits=false;
-           }
-           if(filter.indianPreferred!==""&&toilet.isIndian!==null&&((filter.indianPreferred==="true"&&toilet.isIndian===false)||(filter.indianPreferred==="false"&&toilet.isIndian===true))){
-             //console.log({toilet, filter})
-             toiletFits=false;
-           }
-           if(filter.maximumPrice!==""&&toilet.restroomPrice!==null&&parseInt(filter.maximumPrice)<toilet.restroomPrice){
-             toiletFits=false;
-           }
-           if(filter.isAvailable&&filter.isAvailable!==""&&toilet.isAvailable!==null&&((filter.isAvailable==="true"&&toilet.isAvailable===false))){
-             toiletFits=false;
-           }
-           if(filter.needsToiletPaper==="true"&&toilet.hasToiletPaper!==null&&toilet.hasToiletPaper===false){
-             toiletFits=false;
-           }
-           if(filter.gender!==""&&toilet.gender!==null&&((filter.gender==="male"&&toilet.gender==="a")||
-                   (filter.gender==="female"&&toilet.gender==="b")
-                   ||(filter.gender==="other"&&!toilet.gender==="c"))){
-                     toiletFits=false;
-                   }
-           if(toiletFits){
-             //console.log({toilet, filter})
-             filteredToilets.push(toilet);
-           }
-           else{
-             console.log({toilet, filter});
-           }
-           
-       });
-        setToilets(filteredToilets); 
-        console.log("Filtered toilets, "+filteredToilets.length+" toilets");
-    })
- },[])
 
 
-  // const onMapClick = React.useCallback((e) => {
-  //   setMarkers((current) => [
-  //     ...current,
-  //     {
-  //       lat: e.latLng.lat(),
-  //       lng: e.latLng.lng(),
-  //       time: new Date(),
-  //     },
-  //   ]);
-  // }, []);
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
+    doneMapLoad(true)
   }, []);
 
   const panTo = React.useCallback(({ lat, lng }) => {
@@ -134,12 +90,25 @@ const Map = ({changePositionState, currentLat, currentLng, zoom})=> {
     mapRef.current.setZoom(14);
   }, []);
 
-  const handleDragEnd = () => {
+  const changePositionState = () =>{
+    
     console.log("Position changed.")
     
-    localStorage.setItem('position', JSON.stringify({zoom:mapRef.current.getZoom(), lat:mapRef.current.getCenter().lat(), lng:mapRef.current.getCenter().lng()}))
-    console.log(localStorage.getItem('position'))
-    changePositionState()
+    setLat(mapRef.current.getCenter().lat());
+    setLng(mapRef.current.getCenter().lng());
+    changeZoomState();
+  } 
+  const changeZoomState = () => {
+    if(!doneWithMapLoad){
+      return 0; 
+    }
+    setZoom(mapRef.current.getZoom())
+    if(zoom<=12){
+      handleExtraZoom()
+    }
+    else{
+      handleSnackbarClose()
+    }
   }
   
   if (loadError) return "Error";
@@ -153,82 +122,38 @@ const Map = ({changePositionState, currentLat, currentLng, zoom})=> {
     <NavLink to="/profile" className="profile"><PersonLogo className="profile" /></NavLink>
     <NavLink to="/filter" className="filter"><FilterLogo className="filter" /></NavLink>
       <Locate panTo={panTo} />
-      <Search panTo={panTo} currentPosition={{lat:currentLat, lng:currentLng}}/>
+      <Search panTo={panTo} />
 
       <GoogleMap
-        key={currentLat}
-        id='{lat}-{lng}'
+        key="map"
         mapContainerStyle={mapContainerStyle}
         zoom={zoom}
         center={center}
         options={options}
         // onClick={onMapClick}
         onLoad={onMapLoad}
-        onDragEnd={handleDragEnd}
+        onDragEnd={changePositionState}
+        onZoomChanged={changeZoomState}
       >
-        {toilets.map((marker) => (
-          <Marker
-            key={`${marker._id}`}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            // onClick={() => {
-            //   setSelected(marker);
-            // }}
-            
-            icon ={{
-              url: `https://img1.pnghut.com/18/5/15/0Tdqtwk9XN/toilet-symbol-brand-female-area.jpg`,
-              
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15),
-              scaledSize: new window.google.maps.Size(30, 30),
-            }}
-          />
-        ))}
 
-        {selected ? (
-          <InfoWindow
-            position={{ lat: selected.lat, lng: selected.lng }}
-            onCloseClick={() => {
-              setSelected(null);
-            }}
-          >
-            <div>
-              <h2>
-                <span role="img" aria-label="bear">
-                  🐻
-                </span>{" "}
-                Alert
-              </h2>
-              <p>Spotted {formatRelative(selected.time, new Date())}</p>
-            </div>
-          </InfoWindow>
-        ) : null}
+
+      <Markers key={currentLat*currentLng} currentLat={currentLat} currentLng={currentLng} zoom={zoom}></Markers>
+
+      <Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity="warning">
+          Zoom in more to load the toilets properly!
+        </Alert>
+      </Snackbar>
+
+        
+
+
+
+
       </GoogleMap>
     </div>
   );
 }
-
-// const Profile = () => 
-// {
-//   return (
-//     <button
-    
-//     onClick={() => {
-//       navigator.geolocation.getCurrentPosition(
-//         (position) => {
-//           panTo({
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude,
-//           });
-//         },
-//         () => null
-//       );
-//     }}
-//   >
-//     <img src="./my_loc.svg" alt="loc" />
-//   </button>
-//   );  
-// }
-
 
 function Locate({ panTo }) {
   return (
@@ -305,6 +230,113 @@ function Search({ panTo }) {
       </Combobox>
     </div>
   );
+}
+
+const Markers = ({currentLat, currentLng}) => {
+  const [toilets, setToilets] = React.useState([]);
+  const [selected, setSelected] = React.useState(null);
+  
+  useEffect(()=>{   
+    console.log("useEffect triggered")
+    fetch('/api/toilet/nearbyToilets?lat='+currentLat+'&lng='+currentLng+"&maxDistance="+10*1000,{
+      method:"GET",
+            headers:{
+                "Content-Type":"application/json", 
+                "Authorization":"Bearer "+localStorage.getItem("jwt"), 
+            },
+    }).then(res=>res.json())
+    .then(result=>{
+         console.log("Found toilets, "+result.length+" toilets"); 
+         
+         const filter=JSON.parse(localStorage.getItem("filterSettings"));
+         
+         var filteredToilets=[];
+         if(!filter||!result||result.length===0){
+           setToilets(result);
+           console.log("no filter or toilets found.");
+           return;
+         }
+         result.forEach((toilet) => {
+           
+           var toiletFits=true;
+           if(filter.differentlyAbled&&filter.differentlyAbled!==""&&filter.differentlyAbled==="true"&&toilet.differentlyAbled!==null&&toilet.differentlyAbled===false){
+             //console.log({toilet, filter})
+             toiletFits=false;
+           }
+           if(filter.indianPreferred!==""&&toilet.isIndian!==null&&((filter.indianPreferred==="true"&&toilet.isIndian===false)||(filter.indianPreferred==="false"&&toilet.isIndian===true))){
+             //console.log({toilet, filter})
+             toiletFits=false;
+           }
+           if(filter.maximumPrice!==""&&toilet.restroomPrice!==null&&parseInt(filter.maximumPrice)<toilet.restroomPrice){
+             toiletFits=false;
+           }
+           if(filter.isAvailable&&filter.isAvailable!==""&&toilet.isAvailable!==null&&((filter.isAvailable==="true"&&toilet.isAvailable===false))){
+             toiletFits=false;
+           }
+           if(filter.needsToiletPaper==="true"&&toilet.hasToiletPaper!==null&&toilet.hasToiletPaper===false){
+             toiletFits=false;
+           }
+           if(filter.gender!==""&&toilet.gender!==null&&((filter.gender==="male"&&toilet.gender==="a")||
+                   (filter.gender==="female"&&toilet.gender==="b")
+                   ||(filter.gender==="other"&&!toilet.gender==="c"))){
+                     toiletFits=false;
+                   }
+           if(toiletFits){
+             //console.log({toilet, filter})
+             filteredToilets.push(toilet);
+           }
+           else{
+             console.log({toilet, filter});
+           }
+           
+       });
+        setToilets(filteredToilets); 
+        console.log("Filtered toilets, "+filteredToilets.length+" toilets");
+    })
+ },[])
+
+ return(
+   <div>
+     {toilets.map((marker) => (
+          <Marker
+            key={`${marker._id}`}
+            position={{ lat: marker.lat, lng: marker.lng }}
+            // onClick={() => {
+            //   setSelected(marker);
+            // }}
+            
+            icon ={{
+              url: `https://img1.pnghut.com/18/5/15/0Tdqtwk9XN/toilet-symbol-brand-female-area.jpg`,
+              
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+              scaledSize: new window.google.maps.Size(30, 30),
+            }}
+          />
+        ))}
+
+        {selected ? (
+          <InfoWindow
+            position={{ lat: selected.lat, lng: selected.lng }}
+            onCloseClick={() => {
+              setSelected(null);
+            }}
+          >
+            <div>
+              <h2>
+                <span role="img" aria-label="bear">
+                  🐻
+                </span>{" "}
+                Alert
+              </h2>
+              <p>Spotted {formatRelative(selected.time, new Date())}</p>
+            </div>
+          </InfoWindow>
+        ) : null}
+
+   </div>
+ )
+
 }
 
 export default Map;

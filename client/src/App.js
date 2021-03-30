@@ -61,20 +61,9 @@ const theme = createMuiTheme({
 const Routing = () => {
   const history = useHistory()
   const {state, dispatch} = useContext(UserContext)
-  const [lat, setLat] = React.useState(-31.89628);
-  const [lng, setLng] = React.useState(115.95578);
-  const [zoom, setZoom] = React.useState(8);
-  const [dragCount, setDragCount] = React.useState(0);
+  
 
-  const changePositionState = () =>{
-    let pos = JSON.parse(localStorage.getItem('position'))
-    console.log(pos)
-    setLat(pos.lat);
-    setLng(pos.lng);
-    setZoom(pos.zoom)
-    setDragCount(dragCount+1)
-    console.log(dragCount)
-  } 
+  
 
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem("user"));
@@ -88,7 +77,7 @@ const Routing = () => {
   return (
     <Switch>
           <Route exact path="/">
-            <Map key={lat} changePositionState={changePositionState} dragCount={dragCount} currentLat={lat} currentLng={lng} zoom={zoom}/>
+            <Map />
           </Route>
           <Route path="/profile">
             <Profile /> 

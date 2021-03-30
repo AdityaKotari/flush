@@ -63,8 +63,7 @@ router.get("/nearbyToilets", (req, res) => {
           }
          }
         }
-      })
-      .populate("owner")
+      },'_id lat lng')
       .find((error, result) => {
         if(error) 
           console.log(error);
