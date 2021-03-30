@@ -1,8 +1,9 @@
 .profile
 {
     position: absolute;
-    top: 41px;
+    bottom: 30px;
     right: 10px;
+    z-index: 10;
 }
 
 .marker-btn {
@@ -23,8 +24,9 @@
 }
 .filter{
     position: absolute;
-    bottom: 45px;
+    bottom: 10px;
     left: 10px;
+    z-index: 10;
 }
 
 .logoImg
@@ -59,7 +61,7 @@
   z-index: 10;
 }
 .locate img {
-  width: 30px;
+  width: 28px;
   cursor: pointer;
 }
 
