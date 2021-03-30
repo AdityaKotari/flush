@@ -175,7 +175,7 @@ const Map = ({changePositionState, currentLat, currentLng, zoom})=> {
             // }}
             
             icon ={{
-              url: `./public_icons/wc.png`,
+              url: `https://img1.pnghut.com/18/5/15/0Tdqtwk9XN/toilet-symbol-brand-female-area.jpg`,
               
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
