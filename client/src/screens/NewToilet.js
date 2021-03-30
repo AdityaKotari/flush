@@ -195,8 +195,8 @@ const NewToilet = ()  => {
                 restroomPrice:restroomPrice, 
                 bathroomPrice:bathroomPrice, 
                 toiletType:indian, 
-                lat:marker.latitude, 
-                lng:marker.longitude, 
+                lat:marker.lat, 
+                lng:marker.lng, 
                 photos: photos
                 
                 
@@ -300,7 +300,7 @@ const NewToilet = ()  => {
                     </IconButton>
                     
           <Typography variant="h6">
-            Pick restroom location 
+            Tap location to place marker
          </Typography>
                 </Toolbar>
             </AppBar>
