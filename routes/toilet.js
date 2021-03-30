@@ -21,6 +21,10 @@ router.post('/newToilet', requireLogin, (req, res) => {
   const toilet = new Toilet({
     lat,
     lng,
+    location: {
+      type:"Point",
+      coordinates:[lng, lat]
+    },
     owner: req.user || "", 
     restroomPrice,
     bathroomPrice,
@@ -43,11 +47,39 @@ router.post('/newToilet', requireLogin, (req, res) => {
 
 });
 
+router.get("/nearbyToilets", (req, res) => {
+  const {maxDistance, lng, lat} = req.query;
+  if(!lng||!lat){
+    res.status(422).json({ error: "Both lat and lng need to be present!" });
+  }
+  console.log(req.query)
+      Toilet.find({
+        location: {
+         $nearSphere: {
+          $maxDistance: Number(maxDistance)||(10000), //meters
+          $geometry: {
+            type: "Point",
+            coordinates: [Number(lng), Number(lat)]
+          }
+         }
+        }
+      })
+      .populate("owner")
+      .find((error, result) => {
+        if(error) 
+          console.log(error);
+        console.log("nearby toilets called, "+result?result.length:"0"+" Toilets found nearby.")
+        res.json(result);
+       });
+});
+
+
 
 router.get("/allToilets", async (req, res) => {
     try{
         const toiletArray = await Toilet.find({}).populate("owner");
         res.json(toiletArray);
+        console.log("all toilets called")
     }
     catch (error){
         res.status(422).send(error);

@@ -31,21 +31,33 @@ const options = {
   disableDefaultUI: true,
   zoomControl: false,
 };
-const center = {
-  lat: 43.6532,
-  lng: -79.3832,
-};
 
-export default function Map() {
+
+const Map = ({changePositionState, currentLat, currentLng, zoom})=> {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
   const [toilets, setToilets] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
+  
+  const center = {
+    lat: currentLat,
+    lng: currentLng,
+  };  
+  //const [currentPosition, setCurrentPosition] = React.useState({lng:center.lng, lat:center.lat});
+  
+  //const [ignored, forceUpdate] = React.useReducer(x => x + 1, 0);
+
+
   useEffect(()=>{   
-    fetch('/api/toilet/allToilets',{
-      
+    console.log("useEffect triggered, "+currentLat, +", "+currentLng )
+    fetch('/api/toilet/nearbyToilets?lat='+currentLat+'&lng='+currentLng+"&maxDistance="+10*1000,{
+      method:"GET",
+            headers:{
+                "Content-Type":"application/json", 
+                "Authorization":"Bearer "+localStorage.getItem("jwt"), 
+            },
     }).then(res=>res.json())
     .then(result=>{
          console.log("Found toilets, "+result.length+" toilets"); 
@@ -53,9 +65,9 @@ export default function Map() {
          const filter=JSON.parse(localStorage.getItem("filterSettings"));
          
          var filteredToilets=[];
-         if(!filter){
+         if(!filter||!result||result.length===0){
            setToilets(result);
-           console.log("no filter found.");
+           console.log("no filter or toilets found.");
            return;
          }
          result.forEach((toilet) => {
@@ -119,28 +131,40 @@ export default function Map() {
     mapRef.current.setZoom(14);
   }, []);
 
+  const handleDragEnd = () => {
+    console.log("Position changed.")
+    
+    localStorage.setItem('position', JSON.stringify({zoom:mapRef.current.getZoom(), lat:mapRef.current.getCenter().lat(), lng:mapRef.current.getCenter().lng()}))
+    console.log(localStorage.getItem('position'))
+    changePositionState()
+  }
+  
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
+
+  
 
   return (
     <div>
       
 
       <Locate panTo={panTo} />
-      <Search panTo={panTo} />
+      <Search panTo={panTo} currentPosition={{lat:currentLat, lng:currentLng}}/>
 
       <GoogleMap
-        id="map"
+        key={currentLat}
+        id='{lat}-{lng}'
         mapContainerStyle={mapContainerStyle}
-        zoom={8}
+        zoom={zoom}
         center={center}
         options={options}
         // onClick={onMapClick}
         onLoad={onMapLoad}
+        onDragEnd={handleDragEnd}
       >
         {toilets.map((marker) => (
           <Marker
-            key={`${marker.lat}-${marker.lng}`}
+            key={`${marker._id}`}
             position={{ lat: marker.lat, lng: marker.lng }}
             // onClick={() => {
             //   setSelected(marker);
@@ -269,7 +293,7 @@ function Search({ panTo }) {
           <ComboboxList>
             {status === "OK" &&
               data.map(({ id, description }) => (
-                <ComboboxOption key={id} value={description} />
+                <ComboboxOption key={description} value={description} />
               ))}
           </ComboboxList>
         </ComboboxPopover>
@@ -278,3 +302,4 @@ function Search({ panTo }) {
   );
 }
 
+export default Map;
