@@ -21,6 +21,7 @@ import { formatRelative } from "date-fns";
 import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import "@reach/combobox/styles.css";
+import { SearchOutlined } from "@material-ui/icons";
 // import mapStyles from "./mapStyles";
 
 const libraries = ["places"];
@@ -261,12 +262,13 @@ function Search({ panTo }) {
 
   return (
     <div className="search">
+      
       <Combobox onSelect={handleSelect}>
         <ComboboxInput
           value={value}
           onChange={handleInput}
           disabled={!ready}
-          placeholder="Search your location"
+          placeholder="🔍 Search your location"
         />
         <ComboboxPopover>
           <ComboboxList>
