@@ -13,6 +13,7 @@ import { Bathtub, Search, Wc, PhotoCamera, Backspace, ArrowBack, PinDrop, EditLo
 import MapGL, {GeolocateControl} from 'react-map-gl';
 import { NavLink, useHistory } from 'react-router-dom';
 import MuiAlert from '@material-ui/lab/Alert';
+
 import {
   GoogleMap,
   useLoadScript,
@@ -98,10 +99,14 @@ const NewToilet = ()  => {
         [handleViewportChange]
       );
     //LOCATION PICKER
-      const [marker, setMarker] = useState({
-        latitude: null,
-        longitude: null,
-      });
+      const [marker, setMarker] = useState(
+        null);
+
+      const changeMarker = (selected) => 
+      {
+         setMarker(selected)
+         console.log(marker)
+      }
 
       useEffect(()=>{
           setMarker({
@@ -168,8 +173,8 @@ const NewToilet = ()  => {
         hasToiletPaper:hasToiletPaper, 
         restroomPrice:restroomPrice, 
         bathroomPrice:bathroomPrice, 
-        lat:marker.latitude, 
-        lng:marker.longitude, 
+        lat:marker.lat, 
+        lng:marker.lng, 
         Indian: indian, 
         photos: photos
 
@@ -286,8 +291,20 @@ const NewToilet = ()  => {
       
   return (
     <div>
-       
-             <Picker /> 
+           <AppBar position="static" color="secondary" elevation={0}>
+                <Toolbar>
+                    <IconButton edge="start"  color="primary" aria-label="menu">
+                        <ArrowBack onClick = {
+                            history.goBack
+                        }/>
+                    </IconButton>
+                    
+          <Typography variant="h6">
+            Pick restroom location 
+         </Typography>
+                </Toolbar>
+            </AppBar>
+             <Picker changeMarker={changeMarker}/> 
    
 
 
@@ -531,25 +548,25 @@ const center = {
   lng: -79.3832,
 };
 
-function Picker() {
+function Picker({changeMarker}) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+  const [selected, setSelected] = React.useState(null);
+ useEffect(()=>{
+      changeMarker(selected)
+ }, [selected])
+
   
- 
-
-
-  // const onMapClick = React.useCallback((e) => {
-  //   setMarkers((current) => [
-  //     ...current,
-  //     {
-  //       lat: e.latLng.lat(),
-  //       lng: e.latLng.lng(),
-  //       time: new Date(),
-  //     },
-  //   ]);
-  // }, []);
+  const onMapClick = React.useCallback((e) => {
+    setSelected({
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+        
+      },
+    );
+  }, []);
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
@@ -567,8 +584,7 @@ function Picker() {
   return (
     <div>
       
-    <NavLink to="/profile" className="profile"><PersonLogo className="profile" /></NavLink>
-    <NavLink to="/filter" className="filter"><FilterLogo className="filter" /></NavLink>
+    
       <Locate panTo={panTo} />
       <SearchMap panTo={panTo} />
 
@@ -578,9 +594,17 @@ function Picker() {
         zoom={8}
         center={center}
         options={options}
-        // onClick={onMapClick}
+        onClick={onMapClick}
         onLoad={onMapLoad}
       >
+        {selected ? <Marker
+           
+           position={{ lat: selected.lat, lng: selected.lng }}
+           
+          
+         
+         /> : null }
+        
 
        
       </GoogleMap>
@@ -614,7 +638,7 @@ function Picker() {
 function Locate({ panTo }) {
   return (
     <button
-      className="locate"
+      className="locatePicker"
       onClick={() => {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -666,7 +690,7 @@ function SearchMap({ panTo }) {
   };
 
   return (
-    <div className="search">
+    <div className="searchPicker">
       
       <Combobox onSelect={handleSelect}>
         <ComboboxInput

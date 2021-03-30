@@ -52,6 +52,22 @@
   
 }
 
+.searchPicker {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+.searchPicker input {
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  width: 100%;
+  
+}
 
 
 
@@ -68,6 +84,20 @@
 .locate img {
   width: 28px;
   cursor: pointer;
+}
+
+.locatePicker img {
+  width: 25px;
+  cursor: pointer;
+}
+
+.locatePicker {
+  position: absolute;
+  top: 52vh;
+  right: 10px;
+  background: none;
+  border: none;
+  z-index: 10;
 }
 
 .marker-btn {
