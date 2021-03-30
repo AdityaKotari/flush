@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { NavLink } from 'react-router-dom'
 import {
   GoogleMap,
   useLoadScript,
@@ -17,8 +18,10 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import { formatRelative } from "date-fns";
-
+import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
+import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import "@reach/combobox/styles.css";
+import { SearchOutlined } from "@material-ui/icons";
 // import mapStyles from "./mapStyles";
 
 const libraries = ["places"];
@@ -147,7 +150,8 @@ const Map = ({changePositionState, currentLat, currentLng, zoom})=> {
   return (
     <div>
       
-
+    <NavLink to="/profile" className="profile"><PersonLogo className="profile" /></NavLink>
+    <NavLink to="/filter" className="filter"><FilterLogo className="filter" /></NavLink>
       <Locate panTo={panTo} />
       <Search panTo={panTo} currentPosition={{lat:currentLat, lng:currentLng}}/>
 
@@ -282,12 +286,13 @@ function Search({ panTo }) {
 
   return (
     <div className="search">
+      
       <Combobox onSelect={handleSelect}>
         <ComboboxInput
           value={value}
           onChange={handleInput}
           disabled={!ready}
-          placeholder="Search your location"
+          placeholder="🔍 Search your location"
         />
         <ComboboxPopover>
           <ComboboxList>

@@ -10,10 +10,32 @@ import Grid from '@material-ui/core/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import mapboxgl from 'mapbox-gl'
 import { Bathtub, Search, Wc, PhotoCamera, Backspace, ArrowBack, PinDrop, EditLocationOutlined, EditLocationSharp, AddLocation } from '@material-ui/icons';
-import MapGL, {GeolocateControl, Marker} from 'react-map-gl';
+import MapGL, {GeolocateControl} from 'react-map-gl';
 import { NavLink, useHistory } from 'react-router-dom';
 import MuiAlert from '@material-ui/lab/Alert';
-
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+import { formatRelative } from "date-fns";
+import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
+import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
+import "@reach/combobox/styles.css";
+import { SearchOutlined } from "@material-ui/icons";
+// import mapStyles from "./mapStyles";
 
 
 function Alert(props) {
@@ -264,75 +286,8 @@ const NewToilet = ()  => {
       
   return (
     <div>
-        <AppBar position="static" color="secondary" elevation={0}>
-                <Toolbar>
-                    <IconButton edge="start"  color="primary" aria-label="menu">
-                        <ArrowBack onClick = {
-                            history.goBack
-                        }/>
-                    </IconButton>
-                    
-          <Typography variant="h6">
-            Pick restroom location 
-         </Typography>
-                </Toolbar>
-            </AppBar>
-            <MapGL
-        ref={mapRef}
-        {...viewport}
-        width="100%"
-        height="50vh"
-        onViewportChange={handleViewportChange}
-        mapboxApiAccessToken={MAPBOX_TOKEN}
-      >
-  <Marker
-          longitude={marker.longitude}
-          latitude={marker.latitude}
-          offsetTop={-20}
-          offsetLeft={-10}
-          draggable
-          onDragStart={onMarkerDragStart}
-          onDrag={onMarkerDrag}
-          onDragEnd={onMarkerDragEnd}
-        >
-          <AddLocation style = {{color:"red", width:"30px", height:"30px"}}/>
-          {/* <button
-              className="marker-btn"
-             
-            >
-              <img src="./public_icons/wc.png" alt="" />
-            </button> */}
-        </Marker>
-
-          {/* {toilets.map(toilet => (
-      <Marker
-        key={toilet._id}
-        latitude={toilet.lat}
-        longitude={toilet.lng}
-      >
-        <button
-              className="marker-btn"
-             
-            >
-              <img src="./public_icons/wc.png" alt="" />
-            </button>
-      </Marker>
-    ))} */}
-     <GeolocateControl
-        style={geolocateControlStyle}
-        positionOptions={{enableHighAccuracy: true}}
-        trackUserLocation={true}
-        
-      />
-        <Geocoder
-          mapRef={mapRef}
-          onViewportChange={handleGeocoderViewportChange}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          position="top-left"
-          placeholder = "Search"
-
-        />
-      </MapGL>
+       
+             <Picker /> 
    
 
 
@@ -557,3 +512,179 @@ const NewToilet = ()  => {
 
 
 export default NewToilet; 
+
+
+
+
+const libraries = ["places"];
+const mapContainerStyle = {
+  height: "50vh",
+  width: "100vw",
+};
+const options = {
+  // styles: mapStyles,
+  disableDefaultUI: true,
+  zoomControl: false,
+};
+const center = {
+  lat: 43.6532,
+  lng: -79.3832,
+};
+
+function Picker() {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+  
+ 
+
+
+  // const onMapClick = React.useCallback((e) => {
+  //   setMarkers((current) => [
+  //     ...current,
+  //     {
+  //       lat: e.latLng.lat(),
+  //       lng: e.latLng.lng(),
+  //       time: new Date(),
+  //     },
+  //   ]);
+  // }, []);
+
+  const mapRef = React.useRef();
+  const onMapLoad = React.useCallback((map) => {
+    mapRef.current = map;
+  }, []);
+
+  const panTo = React.useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
+  }, []);
+
+  if (loadError) return "Error";
+  if (!isLoaded) return "Loading...";
+
+  return (
+    <div>
+      
+    <NavLink to="/profile" className="profile"><PersonLogo className="profile" /></NavLink>
+    <NavLink to="/filter" className="filter"><FilterLogo className="filter" /></NavLink>
+      <Locate panTo={panTo} />
+      <SearchMap panTo={panTo} />
+
+      <GoogleMap
+        id="map"
+        mapContainerStyle={mapContainerStyle}
+        zoom={8}
+        center={center}
+        options={options}
+        // onClick={onMapClick}
+        onLoad={onMapLoad}
+      >
+
+       
+      </GoogleMap>
+    </div>
+  );
+}
+
+// const Profile = () => 
+// {
+//   return (
+//     <button
+    
+//     onClick={() => {
+//       navigator.geolocation.getCurrentPosition(
+//         (position) => {
+//           panTo({
+//             lat: position.coords.latitude,
+//             lng: position.coords.longitude,
+//           });
+//         },
+//         () => null
+//       );
+//     }}
+//   >
+//     <img src="./my_loc.svg" alt="loc" />
+//   </button>
+//   );  
+// }
+
+
+function Locate({ panTo }) {
+  return (
+    <button
+      className="locate"
+      onClick={() => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            panTo({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          () => null
+        );
+      }}
+    >
+      <img src="./my_loc.svg" alt="loc" />
+    </button>
+  );
+}
+
+function SearchMap({ panTo }) {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      location: { lat: () => 43.6532, lng: () => -79.3832 },
+      radius: 100 * 1000,
+    },
+  });
+
+  // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
+
+  const handleInput = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleSelect = async (address) => {
+    setValue(address, false);
+    clearSuggestions();
+
+    try {
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      panTo({ lat, lng });
+    } catch (error) {
+      console.log("😱 Error: ", error);
+    }
+  };
+
+  return (
+    <div className="search">
+      
+      <Combobox onSelect={handleSelect}>
+        <ComboboxInput
+          value={value}
+          onChange={handleInput}
+          disabled={!ready}
+          placeholder="🔍 Search your location"
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ id, description }) => (
+                <ComboboxOption key={id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
+    </div>
+  );
+}
+
