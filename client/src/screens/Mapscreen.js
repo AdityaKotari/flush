@@ -38,7 +38,7 @@ const center = {
 
 export default function Map() {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
   const [toilets, setToilets] = React.useState([]);
@@ -179,27 +179,27 @@ export default function Map() {
   );
 }
 
-const Profile = () => 
-{
-  return (
-    <button
+// const Profile = () => 
+// {
+//   return (
+//     <button
     
-    onClick={() => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          panTo({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        () => null
-      );
-    }}
-  >
-    <img src="./my_loc.svg" alt="loc" />
-  </button>
-  );  
-}
+//     onClick={() => {
+//       navigator.geolocation.getCurrentPosition(
+//         (position) => {
+//           panTo({
+//             lat: position.coords.latitude,
+//             lng: position.coords.longitude,
+//           });
+//         },
+//         () => null
+//       );
+//     }}
+//   >
+//     <img src="./my_loc.svg" alt="loc" />
+//   </button>
+//   );  
+// }
 
 
 function Locate({ panTo }) {
