@@ -10,6 +10,7 @@ var db = require('../utility/db.js');
 var User = require("../models/user");
 var Toilet = require("../models/toilet");
 const toilet = require('../models/toilet');
+var ObjectId = require('mongoose').Types.ObjectId
 
 
 router.post('/newToilet', requireLogin, (req, res) => {
@@ -72,7 +73,18 @@ router.get("/nearbyToilets", (req, res) => {
        });
 });
 
-
+router.get("/ownerToilets", requireLogin, async (req, res) => {
+  try{
+    const toiletArray = await Toilet.find({
+      'owner': (ObjectId)(req.user._id) 
+    }).populate("owner");
+    res.json(toiletArray);
+    console.log("owner toilets called, "+req.user._id)
+}
+catch (error){
+    res.status(422).send(error);
+}
+ })
 
 router.get("/allToilets", async (req, res) => {
     try{

@@ -334,8 +334,8 @@ const NewToilet = ()  => {
       setIndian(event.target.value);
       
     }}>
-                          <FormControlLabel value="i" control={<Radio />} label="Indian" style = {{color:"black"}}/>
-                          <FormControlLabel value="w" control={<Radio />} label="Western" style = {{color:"black"}}/>
+                          <FormControlLabel value="i" control={<Radio />} label="Squat type" style = {{color:"black"}}/>
+                          <FormControlLabel value="w" control={<Radio />} label="Commode" style = {{color:"black"}}/>
                 
                       </RadioGroup>
                   </FormControl>
