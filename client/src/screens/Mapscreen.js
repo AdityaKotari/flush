@@ -22,7 +22,7 @@ import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import "@reach/combobox/styles.css";
 import { SearchOutlined } from "@material-ui/icons";
-// import mapStyles from "./mapStyles";
+import mapStyles from "./mapStyles";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Card, CardActions,Chip, Avatar, Box,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
@@ -51,7 +51,7 @@ const mapContainerStyle = {
   width: "100vw",
 };
 const options = {
-  // styles: mapStyles,
+  styles: mapStyles,
   disableDefaultUI: true,
   zoomControl: false,
 };
@@ -231,7 +231,7 @@ function Search({ panTo }) {
           value={value}
           onChange={handleInput}
           disabled={!ready}
-          placeholder="🔍 Search your location"
+          placeholder="Search"
         />
         <ComboboxPopover>
           <ComboboxList>
@@ -344,11 +344,11 @@ const Markers = ({currentLat, currentLng}) => {
             }}
             
             icon ={{
-              url: `https://img1.pnghut.com/18/5/15/0Tdqtwk9XN/toilet-symbol-brand-female-area.jpg`,
+              url: `https://icon-library.com/images/restroom-icon-png/restroom-icon-png-18.jpg`,
               
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
-              scaledSize: new window.google.maps.Size(30, 30),
+              scaledSize: new window.google.maps.Size(50, 50),
             }}
           />
         ))}

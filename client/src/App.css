@@ -36,6 +36,7 @@
 }
 
 .search {
+  
   position: absolute;
   top: 10px;
   left: 50%;
@@ -46,15 +47,26 @@
 }
 
 .search input {
+  border: 0.5px solid grey;
+  
+  opacity: 0.6;
   padding: 0.5rem;
   font-size: 1.5rem;
   width: 100%;
   
 }
 
+.search input:focus {
+  border: none;
+  
+ 
+  opacity: 1;
+  
+}
+
 .searchPicker {
   position: absolute;
-  top: 60px;
+  top: 68px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -63,9 +75,21 @@
 }
 
 .searchPicker input {
+  border: 0.5px solid grey;
+ 
+ 
+  opacity: 0.6;
   padding: 0.5rem;
   font-size: 1.5rem;
   width: 100%;
+  
+}
+
+.searchPicker input:focus {
+  border: none;
+  
+ 
+  opacity: 1;
   
 }
 
