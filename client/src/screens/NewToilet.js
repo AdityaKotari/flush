@@ -36,7 +36,7 @@ import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import "@reach/combobox/styles.css";
 import { SearchOutlined } from "@material-ui/icons";
-// import mapStyles from "./mapStyles";
+import mapStyles from "./mapStyles";
 
 
 function Alert(props) {
@@ -539,7 +539,7 @@ const mapContainerStyle = {
   width: "100vw",
 };
 const options = {
-  // styles: mapStyles,
+  styles: mapStyles,
   disableDefaultUI: true,
   zoomControl: false,
 };

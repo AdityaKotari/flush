@@ -22,7 +22,7 @@ import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import "@reach/combobox/styles.css";
 import { SearchOutlined } from "@material-ui/icons";
-// import mapStyles from "./mapStyles";
+import mapStyles from "./mapStyles";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Card, CardActions,Chip, Avatar, Box,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
@@ -51,7 +51,7 @@ const mapContainerStyle = {
   width: "100vw",
 };
 const options = {
-  // styles: mapStyles,
+  styles: mapStyles,
   disableDefaultUI: true,
   zoomControl: false,
 };
