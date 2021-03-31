@@ -103,9 +103,9 @@ const Filter = () => {
                         <Typography variant="body1" align="center">Tip: Leave any of the fields blank if you don't have a preference.</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField fullWidth id="indianPreferred" label="Do you prefer Indian or Western style?"  variant="filled" select onChange={(e)=>setStyle(e.target.value)}>
-                            <MenuItem value="true">Indian</MenuItem>
-                            <MenuItem value="false">Western</MenuItem>
+                        <TextField fullWidth id="indianPreferred" label="Toilet Type:"  variant="filled" select onChange={(e)=>setStyle(e.target.value)}>
+                            <MenuItem value="true">Commode type</MenuItem>
+                            <MenuItem value="false">Squat type</MenuItem>
                         </TextField>
                     </Grid>
                     <Grid item xs={12}>

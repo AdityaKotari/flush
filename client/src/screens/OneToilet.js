@@ -196,7 +196,7 @@ const OneToilet = () => {
                             <ListItemIcon>
                                 <Phone className={iconMakeup.root} />
                             </ListItemIcon>
-                            <ListItemText primary={toiletProp.owner.phone ? toiletProp.owner.phone : "6000439169"} />
+                            <ListItemText primary={(toiletProp.owner&&toiletProp.owner.phone)? toiletProp.owner.phone : "6000439169"} />
                         </ListItem>
 
                     </List>
