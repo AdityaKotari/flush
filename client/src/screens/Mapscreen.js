@@ -343,11 +343,11 @@ const Markers = ({currentLat, currentLng}) => {
             }}
             
             icon ={{
-              url: `https://img1.pnghut.com/18/5/15/0Tdqtwk9XN/toilet-symbol-brand-female-area.jpg`,
+              url: `https://icon-library.com/images/restroom-icon-png/restroom-icon-png-18.jpg`,
               
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
-              scaledSize: new window.google.maps.Size(30, 30),
+              scaledSize: new window.google.maps.Size(50, 50),
             }}
           />
         ))}
