@@ -25,12 +25,25 @@ import { SearchOutlined } from "@material-ui/icons";
 // import mapStyles from "./mapStyles";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core/styles';
-
+import { Card, CardActions,Chip, Avatar, Box,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
+import {AccessibleForward, AirlineSeatLegroomExtra, Info, Person, PersonAddDisabled, PlayCircleFilledWhite, PregnantWoman, Wc} from '@material-ui/icons'; 
+import { indigo } from "@material-ui/core/colors";
+import { withTheme } from "@material-ui/styles";
+import Rating from '@material-ui/lab/Rating';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: "white", 
+    
+  },
+  icons:
+  {
+    fill:indigo[800], 
+  }
+}));
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -232,10 +245,12 @@ function Search({ panTo }) {
   );
 }
 
+
+
 const Markers = ({currentLat, currentLng}) => {
   const [toilets, setToilets] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
-  
+  const chipStyle = useStyles(); 
   useLayoutEffect(()=>{   
     console.log("useEffect triggered")
     fetch('/api/toilet/nearbyToilets?lat='+currentLat+'&lng='+currentLng+"&maxDistance="+10*1000,{
@@ -295,15 +310,37 @@ const Markers = ({currentLat, currentLng}) => {
     })
  },[])
 
+ const handleMarkerClick = (marker) => {
+  fetch("/api/toilet/oneToilet", {
+    method: "post",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt"),
+    },
+    body: JSON.stringify({
+        toilet_id: marker._id
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+        console.log(data);
+        setSelected(data)
+    }).catch(err => {
+        console.log(err)
+    })
+    //setSelected(marker)
+}
+
  return(
    <div>
      {toilets.map((marker) => (
           <Marker
             key={`${marker._id}`}
             position={{ lat: marker.lat, lng: marker.lng }}
-            // onClick={() => {
-            //   setSelected(marker);
-            // }}
+            onClick={() => {
+              handleMarkerClick(marker);
+              //setSelected(marker);
+            }}
             
             icon ={{
               url: `https://img1.pnghut.com/18/5/15/0Tdqtwk9XN/toilet-symbol-brand-female-area.jpg`,
@@ -323,13 +360,41 @@ const Markers = ({currentLat, currentLng}) => {
             }}
           >
             <div>
-              <h2>
-                <span role="img" aria-label="bear">
-                  🐻
-                </span>{" "}
-                Alert
-              </h2>
-              <p>Spotted {formatRelative(selected.time, new Date())}</p>
+            <Card>
+            <CardContent>
+            
+            
+            <Typography variant="body2" component="p">
+                  {selected.landmarkName}
+            </Typography>
+            
+            <Box component="fieldset" borderColor="transparent">
+                  {selected.avgRating > 0 ? <Rating name="read-only" value={selected.avgRating > 0 ? selected.avgRating: 0} readOnly />: null}
+            </Box>
+            <div>
+                  {selected.differentlyAbled ? 
+                  <span><Chip variant="outlined" icon={<AccessibleForward className={chipStyle.icons}/>} size="small" label="Different abled friendly" className = {chipStyle.root}/>&nbsp;</span> 
+                   : null}
+                  
+                  {selected.toiletType === "w" ? <span> <Chip  variant="outlined" icon={<AirlineSeatLegroomExtra className={chipStyle.icons}/>}   size="small" label="Commode" className = {chipStyle.root}/>&nbsp; </span>: null}
+                  {selected.gender === "a" ? <span> <Chip   variant="outlined" icon={<PregnantWoman className={chipStyle.icons}/>}   size="small" label="Ladies" className = {chipStyle.root}/>&nbsp; </span>: null}
+                  {selected.gender === "b" ? <span> <Chip   variant="outlined" icon={<Person className={chipStyle.icons}/>}   size="small" label="Gents" className = {chipStyle.root}/>&nbsp; </span>: null}
+                  {selected.gender === "c" ? <span> <Chip   variant="outlined" icon={<Wc className={chipStyle.icons}/>} label="Unisex" size="small" className = {chipStyle.root}/>&nbsp; </span>: null}
+
+                  
+                 
+                 
+            </div>
+            
+            
+            
+            
+            
+            </CardContent>
+            <CardActions>
+                <NavLink to={'/one_toilet/'+selected._id}><Chip  icon= {<Info style={{color:"white"}}/>} label = "Details" style={{backgroundColor:"#3f50b5", color:"white", fontWeight:"bold"}}></Chip></NavLink>     
+            </CardActions>
+            </Card>
             </div>
           </InfoWindow>
         ) : null}
