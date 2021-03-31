@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { NavLink } from 'react-router-dom'
 import {
   GoogleMap,
@@ -186,7 +186,7 @@ function Search({ panTo }) {
   } = usePlacesAutocomplete({
     requestOptions: {
       location: { lat: () => 43.6532, lng: () => -79.3832 },
-      radius: 100 * 1000,
+      radius: 70 * 1000,
     },
   });
 
@@ -236,7 +236,7 @@ const Markers = ({currentLat, currentLng}) => {
   const [toilets, setToilets] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
   
-  useEffect(()=>{   
+  useLayoutEffect(()=>{   
     console.log("useEffect triggered")
     fetch('/api/toilet/nearbyToilets?lat='+currentLat+'&lng='+currentLng+"&maxDistance="+10*1000,{
       method:"GET",
