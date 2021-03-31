@@ -1,10 +1,11 @@
 ## FLUSH
 ##### 🏆 Best Open Innovation Hack, [HACKNITR 2.0](https://hacknitr2.devfolio.co/submissions?show_winners=true)
-
+##### Team: @guilefoylegaurav, @AdityaKotari, @Sylamsh
 
 ##### A Demo can be found at [https://flush-app.herokuapp.com/](https://flush-app.herokuapp.com/)
 
-### Tagline
+_______________
+### Tagline:
 Flush aims to provide quick and nearby access to sanitation and toilets in all parts of the world by creating a map of all toilets and incentivising users to add their own restrooms to the map.
 ### The problems we set out to solve:
 Everyone has had a point in their life where
@@ -69,7 +70,7 @@ Then run
 ```
 node ./index.js
 ```
-in the root directory. 
+in the *root* directory. 
 
  
 
