@@ -56,8 +56,8 @@ const options = {
   zoomControl: false,
 };
 const center = {
-  lat: -31.89628,
-  lng: 115.95578,
+  lat: 51.501286,
+  lng: 0.046541,
 };  
 
 const Map = () => {
@@ -66,8 +66,8 @@ const Map = () => {
     libraries,
   });
 
-  const [currentLat, setLat] = React.useState(-31.89628);
-  const [currentLng, setLng] = React.useState(115.95578);
+  const [currentLat, setLat] = React.useState(51.501286);
+  const [currentLng, setLng] = React.useState(0.046541);
   const [zoom, setZoom] = React.useState(14);
   const [doneWithMapLoad, doneMapLoad] = React.useState(false);
 
@@ -101,6 +101,7 @@ const Map = () => {
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
+    changePositionState();
   }, []);
 
   const changePositionState = () =>{
