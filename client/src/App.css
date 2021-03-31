@@ -1,8 +1,9 @@
 .profile
 {
     position: absolute;
-    top: 25px;
-    right: 20px;
+    bottom: 30px;
+    right: 10px;
+    z-index: 10;
 }
 
 .marker-btn {
@@ -17,15 +18,98 @@
   width: 20px;
   height: 20px;
 
+
+
+  
 }
 .filter{
     position: absolute;
-    bottom: 45px;
+    bottom: 10px;
     left: 10px;
+    z-index: 10;
 }
 
 .logoImg
 {
   height: 50px;
   width: 60px;
+}
+
+.search {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+.search input {
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  width: 100%;
+  
+}
+
+.searchPicker {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+.searchPicker input {
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  width: 100%;
+  
+}
+
+
+
+
+
+.locate {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  z-index: 10;
+}
+.locate img {
+  width: 28px;
+  cursor: pointer;
+}
+
+.locatePicker img {
+  width: 25px;
+  cursor: pointer;
+}
+
+.locatePicker {
+  position: absolute;
+  top: 52vh;
+  right: 10px;
+  background: none;
+  border: none;
+  z-index: 10;
+}
+
+.marker-btn {
+  background: white;
+  border: 1.5px solid black;
+  border-radius: 50%;
+  padding-top: 5px;
+  cursor: pointer;
+}
+
+.marker-btn img {
+  width: 20px;
+  height: 20px;
+
 }

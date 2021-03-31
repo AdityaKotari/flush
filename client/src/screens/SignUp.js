@@ -68,7 +68,7 @@ const SignUp = () => {
           setOpen(true);
             return
         }
-        fetch("/profile/signup",{
+        fetch("/api/profile/signup",{
             method:"post",
             headers:{
                 "Content-Type":"application/json"

@@ -2,16 +2,34 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 
+const pointSchema = new mongoose.Schema({
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  });
+  
+
 const toiletSchema = new mongoose.Schema({
     //latitude and longitude
     lat:{
         type: Number,
-        // required: true
+        required: true
     },
     lng:{
         type: Number,
-        // required: true
+        required: true
     }, 
+    //geojson object, needs type:'Point' and stuff.
+    location: {
+        type: pointSchema,
+        index:'2dsphere'
+    },
     owner:{
         type:ObjectId,
         ref:"User"
@@ -76,4 +94,4 @@ const toiletSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Toilet", toiletSchema, 'toilets');
+module.exports = mongoose.model("Toilet", toiletSchema, 'newToilets');
