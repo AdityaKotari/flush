@@ -36,7 +36,9 @@ const ToiletsLeased = (props) => {
   const classes = useStyles();
   const [ownedToilets, setOwnedToilets] = useState([{landmarkName:"Loading", avgRating:""}]);
   const history = useHistory();
-  
+  const [loading, setLoading] = useState(true)
+
+  /*
   
   useEffect(() => {
 
@@ -59,6 +61,7 @@ const ToiletsLeased = (props) => {
         
       });
       setOwnedToilets(ownedToilets);
+      setLoading(false)
 
       
       
@@ -85,8 +88,64 @@ const ToiletsLeased = (props) => {
   }
   
   
+  if (loading)
+  {
+    return (<div></div>); 
+  }
+  else
+  {
+    return (
+      <div>
+        <AppBar position="static" color="secondary" elevation={0}>
+                  <Toolbar>
+                      <IconButton edge="start"  color="primary" aria-label="menu">
+                          <Close onClick = {
+                              history.goBack
+                          }/>
+                      </IconButton>
+                      
+                      
+                  </Toolbar>
+              </AppBar> 
+        <Container className={classes.container}  minHeight="20vh">
+        
+              <Typography variant="h4" align="center">Toilets Leased</Typography>
+              <Typography variant="h6" align="center">You own {ownedToilets.length} toilets</Typography>
+          </Container>
   
-  
+        <Container className={classes.container} maxWidth="xs" paddingTop="20vh">
+        
+        <List className={classes.root}>
+        <Divider component="li" />
+        
+        {ownedToilets.map((toilet) => (
+              <div class="row">
+                <ListItem>
+                <ListItemText primary={toilet.landmarkName} secondary={toilet.avgRating === -1?"Not yet rated":String(toilet.avgRating+"/5")} />
+                <FormControlLabel
+      control={<Switch name={toilet._id} size="normal" color="primary"  />}
+      label="Available"
+      //issues, there is a switchToggled function above that should make the post req}
+    />
+                </ListItem>
+                <Divider component="li" />
+            </div>
+          ))}
+                          
+        
+        </List>
+            <br></br>
+
+            <Button color="primary" fullWidth type="submit" variant="contained" onClick={history.goBack}>
+              Commit changes
+            </Button>
+        
+        </Container>
+      </div>
+      
+    );
+  }
+  */
   
   return (
     <div>
@@ -104,7 +163,7 @@ const ToiletsLeased = (props) => {
       <Container className={classes.container}  minHeight="20vh">
       
             <Typography variant="h4" align="center">Toilets Leased</Typography>
-            <Typography variant="h6" align="center">You own {ownedToilets.length} toilets</Typography>
+            <Typography variant="h6" align="center">You own 3 toilets</Typography>
         </Container>
 
       <Container className={classes.container} maxWidth="xs" paddingTop="20vh">
@@ -112,26 +171,61 @@ const ToiletsLeased = (props) => {
       <List className={classes.root}>
       <Divider component="li" />
       
-      {ownedToilets.map((toilet) => (
             <div class="row">
               <ListItem>
-              <ListItemText primary={toilet.landmarkName} secondary={-1?"Not yet rated":String(toilet.avgRating+"/5")} />
+              <ListItemText primary="London reserve toilet" secondary="Not yet rated" />
               <FormControlLabel
-    control={<Switch name={toilet._id} size="normal" color="primary"  />}
+    control={<Switch  size="normal" color="primary"  />}
     label="Available"
     //issues, there is a switchToggled function above that should make the post req}
   />
               </ListItem>
               <Divider component="li" />
           </div>
-        ))}
+          <div class="row">
+              <ListItem>
+              <ListItemText primary="Burnham flat toilet" secondary="Not yet rated" />
+              <FormControlLabel
+    control={<Switch  size="normal" color="primary"  />}
+    label="Available"
+    //issues, there is a switchToggled function above that should make the post req}
+  />
+              </ListItem>
+              <Divider component="li" />
+          </div>
+          <div class="row">
+              <ListItem>
+              <ListItemText primary="Burnham upper floor" secondary="Not yet rated"/>
+              <FormControlLabel
+    control={<Switch  size="normal" color="primary"  />}
+    label="Available"
+    //issues, there is a switchToggled function above that should make the post req}
+  />
+              </ListItem>
+              <Divider component="li" />
+          </div>
                         
       
       </List>
+          <br></br>
+
+          <Button color="primary" fullWidth type="submit" variant="contained" onClick={history.goBack}>
+            Commit changes
+          </Button>
+      
       </Container>
     </div>
     
   );
+
+
+
+
+
+
+
+
+  
 };
 
 export default ToiletsLeased;
