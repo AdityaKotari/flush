@@ -1,8 +1,8 @@
 ## FLUSH
-##### 🏆 Best Open Innovation Hack, [HACKNITR 2.0](https://hacknitr2.devfolio.co/submissions?show_winners=true)
-##### Team: @guilefoylegaurav, @AdityaKotari, @Sylamsh
-
-##### A Demo can be found at [https://flush-app.herokuapp.com/](https://flush-app.herokuapp.com/)
+#### 🏆 Best Open Innovation Hack, [HACKNITR 2.0](https://hacknitr2.devfolio.co/submissions?show_winners=true)
+#### Team: @guilefoylegaurav, @AdityaKotari, @Sylamsh
+ 
+##### A Demo can be found at [https://flush-app.herokuapp.com/](https://flush-app.herokuapp.com/). (This takes a few seconds sometimes when the server sleeps)
 
 _______________
 ### Tagline:
