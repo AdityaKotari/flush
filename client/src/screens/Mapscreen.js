@@ -21,11 +21,12 @@ import { formatRelative } from "date-fns";
 import { ReactComponent as PersonLogo } from  '../icons/person-24px.svg';
 import { ReactComponent as FilterLogo } from  '../icons/filter-24px.svg';
 import "@reach/combobox/styles.css";
-import { SearchOutlined } from "@material-ui/icons";
+import { KeyboardReturnOutlined, SearchOutlined } from "@material-ui/icons";
 import mapStyles from "./mapStyles";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { Card, CardActions,Chip, Avatar, Box,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction } from '@material-ui/core';
+import ExploreIcon from '@material-ui/icons/Explore';
+import { Card, CardActions,Chip, Avatar, Box, Fab,  Typography, Button, CardContent, makeStyles, ListItemSecondaryAction, IconButton } from '@material-ui/core';
 import {AccessibleForward, AirlineSeatLegroomExtra, Info, Person, PersonAddDisabled, PlayCircleFilledWhite, PregnantWoman, Wc} from '@material-ui/icons'; 
 import { indigo } from "@material-ui/core/colors";
 import { withTheme } from "@material-ui/styles";
@@ -83,15 +84,6 @@ const Map = () => {
     setSnackbarOpen(false);
   };
   
-  
-  //const [currentPosition, setCurrentPosition] = React.useState({lng:center.lng, lat:center.lat});
-  
-  //const [ignored, forceUpdate] = React.useReducer(x => x + 1, 0);
-
-
-
-
-
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
@@ -101,9 +93,11 @@ const Map = () => {
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
-    changePositionState();
+    searchToilets()
+    //changePositionState();
   }, []);
 
+  /*
   const changePositionState = () =>{
     
     console.log("Position changed.")
@@ -123,6 +117,18 @@ const Map = () => {
     else{
       handleSnackbarClose()
     }
+  }*/
+  const searchToilets = ()=>{
+    setZoom(mapRef.current.getZoom())
+    if(zoom<9){
+      handleExtraZoom();
+    }
+    else{
+      setLat(mapRef.current.getCenter().lat());
+      setLng(mapRef.current.getCenter().lng());
+    }
+    
+    return;
   }
   
   if (loadError) return "Error";
@@ -132,11 +138,18 @@ const Map = () => {
 
   return (
     <div>
+    
       
+    <Button variant="contained" size="medium" className="searchFab" color="primary" onClick={searchToilets} >
+      <ExploreIcon />
+         Search for nearby restrooms
+    </Button>
+  
     <NavLink to="/profile" className="profile"><PersonLogo className="profile" /></NavLink>
     <NavLink to="/filter" className="filter"><FilterLogo className="filter" /></NavLink>
-      <Locate panTo={panTo} />
-      <Search panTo={panTo} />
+    
+    <Locate panTo={panTo} />
+    <Search panTo={panTo} />
 
       <GoogleMap
         key="map"
@@ -146,9 +159,10 @@ const Map = () => {
         options={options}
         // onClick={onMapClick}
         onLoad={onMapLoad}
-        onDragEnd={changePositionState}
-        onZoomChanged={changeZoomState}
+        // onDragEnd={changePositionState}
+        // onZoomChanged={changeZoomState}
       >
+      
 
 
       <Markers key={currentLat*currentLng} currentLat={currentLat} currentLng={currentLng} zoom={zoom}></Markers>
@@ -158,12 +172,9 @@ const Map = () => {
           Zoom in more to load the toilets properly!
         </Alert>
       </Snackbar>
-
-        
-
-
-
-
+      
+      
+      
       </GoogleMap>
     </div>
   );
@@ -254,7 +265,7 @@ const Markers = ({currentLat, currentLng}) => {
   const chipStyle = useStyles(); 
   useLayoutEffect(()=>{   
     console.log("useEffect triggered")
-    fetch('/api/toilet/nearbyToilets?lat='+currentLat+'&lng='+currentLng+"&maxDistance="+10*1000,{
+    fetch('/api/toilet/nearbyToilets?lat='+currentLat+'&lng='+currentLng+"&maxDistance=25000",{
       method:"GET",
             headers:{
                 "Content-Type":"application/json", 
@@ -262,50 +273,50 @@ const Markers = ({currentLat, currentLng}) => {
             },
     }).then(res=>res.json())
     .then(result=>{
-         console.log("Found toilets, "+result.length+" toilets"); 
+          console.log("Found toilets, "+result.length+" toilets"); 
          
-         const filter=JSON.parse(localStorage.getItem("filterSettings"));
+          const filter=JSON.parse(localStorage.getItem("filterSettings"));
          
-         var filteredToilets=[];
-         if(!filter||!result||result.length===0){
-           setToilets(result);
-           console.log("no filter or toilets found.");
-           return;
-         }
-         result.forEach((toilet) => {
+          var filteredToilets=[];
+          if(!filter||!result||result.length===0){
+            setToilets(result);
+            console.log("no filter or toilets found.");
+            return;
+          }
+          result.forEach((toilet) => {
            
-           var toiletFits=true;
-           if(filter.differentlyAbled&&filter.differentlyAbled!==""&&filter.differentlyAbled==="true"&&toilet.differentlyAbled!==null&&toilet.differentlyAbled===false){
+            var toiletFits=true;
+            if(filter.differentlyAbled&&filter.differentlyAbled!==""&&filter.differentlyAbled==="true"&&toilet.differentlyAbled!==null&&toilet.differentlyAbled===false){
              //console.log({toilet, filter})
-             toiletFits=false;
-           }
-           if(filter.indianPreferred!==""&&toilet.isIndian!==null&&((filter.indianPreferred==="true"&&toilet.isIndian===false)||(filter.indianPreferred==="false"&&toilet.isIndian===true))){
+              toiletFits=false;
+            }
+            if(filter.indianPreferred!==""&&toilet.isIndian!==null&&((filter.indianPreferred==="true"&&toilet.isIndian===false)||(filter.indianPreferred==="false"&&toilet.isIndian===true))){
              //console.log({toilet, filter})
-             toiletFits=false;
-           }
-           if(filter.maximumPrice!==""&&toilet.restroomPrice!==null&&parseInt(filter.maximumPrice)<toilet.restroomPrice){
-             toiletFits=false;
-           }
-           if(filter.isAvailable&&filter.isAvailable!==""&&toilet.isAvailable!==null&&((filter.isAvailable==="true"&&toilet.isAvailable===false))){
-             toiletFits=false;
-           }
-           if(filter.needsToiletPaper==="true"&&toilet.hasToiletPaper!==null&&toilet.hasToiletPaper===false){
-             toiletFits=false;
-           }
-           if(filter.gender!==""&&toilet.gender!==null&&((filter.gender==="male"&&toilet.gender==="a")||
-                   (filter.gender==="female"&&toilet.gender==="b")
-                   ||(filter.gender==="other"&&!toilet.gender==="c"))){
-                     toiletFits=false;
-                   }
-           if(toiletFits){
-             //console.log({toilet, filter})
-             filteredToilets.push(toilet);
-           }
-           else{
-             console.log({toilet, filter});
-           }
+              toiletFits=false;
+            }
+            if(filter.maximumPrice!==""&&toilet.restroomPrice!==null&&parseInt(filter.maximumPrice)<toilet.restroomPrice){
+              toiletFits=false;
+            }
+            if(filter.isAvailable&&filter.isAvailable!==""&&toilet.isAvailable!==null&&((filter.isAvailable==="true"&&toilet.isAvailable===false))){
+              toiletFits=false;
+            }
+            if(filter.needsToiletPaper==="true"&&toilet.hasToiletPaper!==null&&toilet.hasToiletPaper===false){
+              toiletFits=false;
+            }
+            if(filter.gender!==""&&toilet.gender!==null&&((filter.gender==="male"&&toilet.gender==="a")||
+                    (filter.gender==="female"&&toilet.gender==="b")
+                    ||(filter.gender==="other"&&!toilet.gender==="c"))){
+                      toiletFits=false;
+                    }
+            if(toiletFits){
+              //console.log({toilet, filter})
+              filteredToilets.push(toilet);
+            }
+            else{
+              console.log({toilet, filter});
+            }
            
-       });
+        });
         setToilets(filteredToilets); 
         console.log("Filtered toilets, "+filteredToilets.length+" toilets");
     })
