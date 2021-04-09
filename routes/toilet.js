@@ -68,7 +68,7 @@ router.get("/nearbyToilets", (req, res) => {
       .find((error, result) => {
         if(error) 
           console.log(error);
-        console.log("nearby toilets called, "+result?result.length:"0"+" Toilets found nearby.")
+        //console.log("nearby toilets called, "+(result)?result.length:"0"+" Toilets found nearby.")
         res.json(result);
        });
 });
