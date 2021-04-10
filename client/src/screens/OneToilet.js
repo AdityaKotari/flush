@@ -4,6 +4,8 @@ import { makeStyles, Container, Snackbar, ListItem, ListItemIcon, ListItemText, 
 import { AccessibleForwardOutlined, AccessTime, AccessTimeOutlined, ArrowBack, AttachMoneyOutlined, BathtubOutlined, Contactless, Info, InfoOutlined, LocationCityOutlined, LocationOnOutlined, MoneyOutlined, Phone, WcOutlined } from '@material-ui/icons';
 import { Rating } from '@material-ui/lab'
 import MuiAlert from '@material-ui/lab/Alert';
+import SingleLineGridList from '../widgets/Carousel';
+import NoImage from '../widgets/NoImage';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -128,33 +130,36 @@ const OneToilet = () => {
 
                 </Toolbar>
             </AppBar>
+            {toiletProp.photos.length > 1 ? 
+                       < SingleLineGridList imageLinks = {toiletProp.photos.slice(1, toiletProp.photos.length)} name={toiletProp.landmarkName} />
+                      
+                      : 
+                      < NoImage imageLinks = {["https://us.123rf.com/450wm/lenm/lenm1405/lenm140500257/28270032-illustration-of-a-public-restroom-with-cubicles-and-urinals.jpg?ver=6"]} />}
+            
+            <p></p>
+            <p></p>
             <Container maxWidth="xs" align="center">
-                <Card className={classes.root} elevation={0}>
+         
+                     
+        
+<Card className={classes.root} elevation={0}>
                     <CardActionArea>
-
-                        <CardMedia
-
-                            image={toiletProp.photos.length > 1 ? toiletProp.photos[1] : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Toilet_photo.jpg/800px-Toilet_photo.jpg"}
-                            title="landmarkName"
-                            className={classes.media}
-
-                        />
+                       
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-
+                            <Typography gutterBottom variant="h6" component="h6">
+                                        {toiletProp.landmarkName}
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
 
-                                <Box component="fieldset" borderColor="transparent">
-
-                                    <Rating name="read-only" value={toiletProp.avgRating > 0 ? toiletProp.avgRating : 1} />
-                                </Box>
+                            
+                               
+                                   <Rating name="read-only" value={toiletProp.avgRating > 0 ? toiletProp.avgRating : 1} />
+                                   <Box ml={2}>{toiletProp.avgRating <= 0 ? 2: toiletProp.avgRating }/5.0 (average)</Box>
+                               
                             </Typography>
                         </CardContent>
                     </CardActionArea>
-                    <CardActions>
-
-                    </CardActions>
+                   
                 </Card>
                 <div>
                     <List component="nav" aria-label="main mailbox folders">
