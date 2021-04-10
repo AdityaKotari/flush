@@ -72,17 +72,8 @@ const Map = () => {
   const [zoom, setZoom] = React.useState(14);
   const [doneWithMapLoad, doneMapLoad] = React.useState(false);
 
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
-  const handleExtraZoom = () => {
-    setSnackbarOpen(true);
-  };
-
-  const handleSnackbarClose = (event, reason) => {
-
-
-    setSnackbarOpen(false);
-  };
+  
   
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
@@ -120,14 +111,8 @@ const Map = () => {
   }*/
   const searchToilets = ()=>{
     setZoom(mapRef.current.getZoom())
-    if(zoom<9){
-      handleExtraZoom();
-    }
-    else{
-      setLat(mapRef.current.getCenter().lat());
-      setLng(mapRef.current.getCenter().lng());
-    }
-    
+    setLat(mapRef.current.getCenter().lat());
+    setLng(mapRef.current.getCenter().lng());
     return;
   }
   
@@ -165,13 +150,9 @@ const Map = () => {
       
 
 
-      <Markers key={currentLat*currentLng} currentLat={currentLat} currentLng={currentLng} zoom={zoom}></Markers>
+      <Markers key={currentLat*currentLng} currentLat={currentLat} currentLng={currentLng} zoom={zoom} ></Markers>
 
-      <Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={handleSnackbarClose}>
-        <Alert onClose={handleSnackbarClose} severity="warning">
-          Zoom in more to load the toilets properly!
-        </Alert>
-      </Snackbar>
+      
       
       
       
@@ -262,7 +243,19 @@ function Search({ panTo }) {
 const Markers = ({currentLat, currentLng}) => {
   const [toilets, setToilets] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
+  
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+
   const chipStyle = useStyles(); 
+  
+  const handleZeroToilets = () => {
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    setSnackbarOpen(false);
+  };
+  
   useLayoutEffect(()=>{   
     console.log("useEffect triggered")
     fetch('/api/toilet/nearbyToilets?lat='+currentLat+'&lng='+currentLng+"&maxDistance=25000",{
@@ -274,6 +267,9 @@ const Markers = ({currentLat, currentLng}) => {
     }).then(res=>res.json())
     .then(result=>{
           console.log("Found toilets, "+result.length+" toilets"); 
+          if(result.length===0){
+            handleZeroToilets();
+          }
          
           const filter=JSON.parse(localStorage.getItem("filterSettings"));
          
@@ -318,6 +314,7 @@ const Markers = ({currentLat, currentLng}) => {
            
         });
         setToilets(filteredToilets); 
+        
         console.log("Filtered toilets, "+filteredToilets.length+" toilets");
     })
  },[])
@@ -411,6 +408,18 @@ const Markers = ({currentLat, currentLng}) => {
           </InfoWindow>
         ) : null}
 
+    <Snackbar 
+            open={snackbarOpen} 
+            autoHideDuration={5000} 
+            onClose={handleSnackbarClose}
+            style={{ height: "100%" }} 
+            anchorOrigin={{vertical: 'top', horizontal: 'center'}}>
+
+        <Alert onClose={handleSnackbarClose} severity="warning">
+          No restrooms were found in this area!
+        </Alert>
+      </Snackbar>
+   
    </div>
  )
 
