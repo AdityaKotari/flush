@@ -1,8 +1,11 @@
-## FLUSH
+
+## FLUSH [(Watch demo video)](https://www.youtube.com/watch?v=Vs-9cdrkRK8)
 ### 🏆 Best Open Innovation Hack, [HACKNITR 2.0](https://hacknitr2.devfolio.co/submissions?show_winners=true)
 ### Team: @guilefoylegaurav, @AdityaKotari, @Sylamsh
 #### Now harnesses the public data of over 31 thousand restrooms in the UK and Australia! 
-A Demo can be found at [https://flush-app.herokuapp.com/](https://flush-app.herokuapp.com/). (This takes a few seconds sometimes when the server sleeps)
+
+Available at: [https://flush-app.herokuapp.com/](https://flush-app.herokuapp.com/) (This takes a few seconds sometimes when the server sleeps)
+
 
 _______________
 ### Tagline:
