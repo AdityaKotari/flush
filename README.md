@@ -74,7 +74,7 @@ node ./index.js
 ```
 in the *root* directory. 
 
- ### Screenshots
+ ### Screenshots (PWA): 
  ![alt text](screenshots/flush_zoom.png)
  ![alt text](screenshots/flush_add.png)
  ![alt text](screenshots/flush_filter.png)
