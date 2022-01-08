@@ -6,7 +6,6 @@
 
 Available at: [https://flush-app.herokuapp.com/](https://flush-app.herokuapp.com/) (This takes a few seconds sometimes when the server sleeps)
 
-
 _______________
 ### Tagline:
 Flush aims to provide quick and nearby access to sanitation and toilets in all parts of the world by creating a map of all toilets and incentivising users to add their own restrooms to the map.
@@ -75,5 +74,8 @@ node ./index.js
 ```
 in the *root* directory. 
 
- 
-
+ ### Screenshots
+ ![alt text](screenshots/flush_zoom.png)
+ ![alt text](screenshots/flush_add.png)
+ ![alt text](screenshots/flush_filter.png)
+ ![alt text](screenshots/flush_av.png)
